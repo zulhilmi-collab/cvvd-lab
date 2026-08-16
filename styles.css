@@ -8,9 +8,10 @@
   /* Ground — graphite */
   --bg-dark: #0e1116;
   --bg-raise: #131820;
-  /* Cards sit over the wave field, so they are deliberately thin. Much below
-     0.45 and muted labels stop clearing 4.5:1 over a bright crest. */
-  --bg-card: rgba(24, 29, 38, 0.52);
+  /* Cards sit over the wave field, so they are deliberately thin. There is no
+     backdrop blur on them — blurring 1px contour lines flattens the field into
+     a wash — so this alpha is the only lever on how strongly it reads. */
+  --bg-card: rgba(24, 29, 38, 0.58);
   --bg-card-hover: rgba(33, 40, 51, 0.72);
 
   /* Two colours carry all the meaning: --signal is the system looking,
