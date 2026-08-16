@@ -1,25 +1,14 @@
-# Personal records — these are individuals' Monash Pure exports. They were the
-# source for the publications page and the team specialties, but they are
-# personal data about named people and should not sit in version control.
-*.pdf
-
-# Photo originals. The optimised crops the site actually serves are committed;
-# these are the multi-megabyte sources they were made from. Kept on disk, out
-# of git. Remove these lines if you want them versioned.
-MZPI.png
-Jeremy.png
-mohd fadillah yamin.png
-new photo.jpg.jpeg
-1776767889207.jpeg
-WhatsApp Image *.jpeg
-WX.webp
-Dr._Glenn_Gao.jpg
-
-# Logo reference artwork (the CVVI and Gemini explorations) and the unused
-# stock wave banner.
-Gemini_Generated_Image_*.png
-cvvi_*.jpg
-abstract_banner_*.jpg
+# Source material, kept out of git.
+#
+#   _source/photos   originals the committed crops were made from
+#   _source/logo-refs  the CVVI and Gemini logo explorations, plus the unused
+#                      stock wave banner
+#   _source/records    personal Monash Pure exports for named individuals —
+#                      these must not travel with the repo
+#
+# Nothing here is needed to build or serve the site. Delete the folder if you
+# have the originals elsewhere; the crops in the repo are independent of it.
+_source/
 
 # Scratch previews
 _*.html
