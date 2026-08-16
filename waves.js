@@ -103,7 +103,7 @@
 
   var VERT = [
     '#version 300 es',
-    'in vec2 aPos;',                 // x across the field, z into the screen
+    'in vec3 aPos;',                 // x across the field, z into the screen, row index
     'uniform mat4 uMVP;',
     'uniform vec3 uEye;',
     'uniform float uAmp;',
@@ -113,8 +113,10 @@
     'uniform float uFreq;',
     'uniform float uFog;',
     'uniform float uHalfWidth;',
+    'uniform float uSeed;',
     'out float vH;',
     'out float vFade;',
+    'out float vAlarm;',
 
     // Four incommensurate sines. No single period means the field never
     // visibly repeats, however far the page scrolls.
@@ -142,6 +144,12 @@
     // Feather the left/right edges so a sheet never ends on a hard vertical.
     '  float edge = 1.0 - smoothstep(0.55, 1.0, abs(aPos.x) / uHalfWidth);',
     '  vFade = fog * edge;',
+    // A handful of contour lines carry the fault colour — a reading that
+    // tripped, not a third colour in the palette. The hash is on the row index
+    // so a flagged line stays flagged along its whole length rather than
+    // flickering per vertex.
+    '  float k = fract(sin(aPos.z * 78.233 + uSeed) * 43758.5453);',
+    '  vAlarm = step(0.965, k);',
     '  gl_Position = uMVP * vec4(world, 1.0);',
     '}'
   ].join('\n');
@@ -151,6 +159,7 @@
     'precision highp float;',
     'in float vH;',
     'in float vFade;',
+    'in float vAlarm;',
     'uniform vec3 uColLow;',
     'uniform vec3 uColHigh;',
     'uniform vec3 uColHot;',
@@ -164,7 +173,11 @@
     // Only the very top of a crest picks up the fault colour — the same "one
     // thing is different" grammar the mark uses for the anomaly.
     '  c = mix(c, uColHot, smoothstep(0.86, 1.0, vH) * 0.7);',
-    '  float a = uOpacity * vFade * (0.34 + 0.66 * vH);',
+    // Only the upper half of a flagged line takes the colour, so it reads as a
+    // crest that tripped rather than a stripe painted across the field.
+    // vec3(0.976, 0.451, 0.086) is --fault, #f97316.
+    '  c = mix(c, vec3(0.976, 0.451, 0.086), vAlarm * smoothstep(0.42, 0.72, vH));',
+    '  float a = uOpacity * vFade * (0.34 + 0.66 * vH) * (1.0 + vAlarm * 0.35);',
     '  if (a < 0.002) discard;',
     '  frag = vec4(c, a);',
     '}'
@@ -203,7 +216,7 @@
 
   var U = {};
   ['uMVP', 'uEye', 'uAmp', 'uPhase', 'uTravel', 'uY', 'uFreq', 'uFog',
-   'uHalfWidth', 'uColLow', 'uColHigh', 'uColHot', 'uOpacity'
+   'uHalfWidth', 'uSeed', 'uColLow', 'uColHigh', 'uColHot', 'uOpacity'
   ].forEach(function (n) { U[n] = gl.getUniformLocation(prog, n); });
 
   /* ---------------------------------------------------------------- geometry
@@ -215,7 +228,7 @@
   var HALF_W = 300;        // field half-width in world units
   var DEPTH = 340;         // field depth, running away from the camera
 
-  var verts = new Float32Array((COLS + 1) * ROWS * 2);
+  var verts = new Float32Array((COLS + 1) * ROWS * 3);
   var vi = 0;
   for (var r = 0; r < ROWS; r++) {
     // Rows bunch up toward the horizon, which is what perspective does to a
@@ -225,6 +238,7 @@
     for (var c = 0; c <= COLS; c++) {
       verts[vi++] = -HALF_W + (2 * HALF_W) * (c / COLS);
       verts[vi++] = z;
+      verts[vi++] = r;          // row index, so a flagged line stays whole
     }
   }
 
@@ -246,7 +260,7 @@
   gl.bufferData(gl.ARRAY_BUFFER, verts, gl.STATIC_DRAW);
   var loc = gl.getAttribLocation(prog, 'aPos');
   gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(loc, 3, gl.FLOAT, false, 0, 0);
 
   var ibo = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
@@ -486,6 +500,7 @@
       gl.uniform1f(U.uFreq, s.freq);
       gl.uniform1f(U.uFog, s.fog);
       gl.uniform1f(U.uOpacity, s.opacity);
+      gl.uniform1f(U.uSeed, i * 37.7);
       // Scroll is the dominant term; drift only keeps it alive when parked.
       gl.uniform1f(U.uTravel, eased * s.travel + t * s.drift);
       gl.uniform1f(U.uPhase, t * s.speed + eased * 2.4 * (i + 1) * 0.5);
