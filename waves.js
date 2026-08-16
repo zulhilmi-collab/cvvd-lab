@@ -4,8 +4,8 @@
    advances each surface through the wave function at a different rate, so the
    layers separate with real depth parallax rather than a translated image.
 
-   The surfaces are contour lines, not a shaded mesh, on purpose: the lab's mark
-   is a signal trace, and a field of traces is the same idea at page scale.
+   The surfaces are contour lines, not a shaded mesh, on purpose: they read as
+   measurement rather than scenery, which is the same idea the mark carries.
 
    Dependency-free. If WebGL2 is unavailable the module bails out and leaves the
    CSS image fallback in place (see .no-webgl in styles.css). */
@@ -161,8 +161,8 @@
     // is tight and centred there — a wide window renders nearly every line at
     // the trough colour and the whole field goes flat.
     '  vec3 c = mix(uColLow, uColHigh, smoothstep(0.40, 0.80, vH));',
-    // Only the very top of a crest picks up copper — the same "one thing is
-    // different" grammar the mark uses for the anomaly.
+    // Only the very top of a crest picks up the fault colour — the same "one
+    // thing is different" grammar the mark uses for the anomaly.
     '  c = mix(c, uColHot, smoothstep(0.86, 1.0, vH) * 0.7);',
     '  float a = uOpacity * vFade * (0.34 + 0.66 * vH);',
     '  if (a < 0.002) discard;',
@@ -259,6 +259,101 @@
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
   gl.clearColor(0, 0, 0, 0);
 
+
+  /* ------------------------------------------------------------- drift nodes
+     A sparse layer of slow-moving points over the sheets. They travel with
+     scroll like everything else, but at their own rate, so they read as depth
+     rather than as an overlay. Kept dim on purpose — this is atmosphere. */
+
+  var VERT_PT = [
+    '#version 300 es',
+    'in vec3 aNode;',                // x, z, phase
+    'uniform mat4 uMVP;',
+    'uniform vec3 uEye;',
+    'uniform float uTime;',
+    'uniform float uTravel;',
+    'uniform float uDpr;',
+    'out float vFade;',
+    'void main() {',
+    '  float ph = aNode.z;',
+    // Each node bobs and drifts on its own phase so the field never pulses
+    // in unison.
+    '  float y  = 6.0 + sin(uTime * 0.21 + ph) * 14.0 + cos(uTime * 0.13 + ph * 1.7) * 8.0;',
+    '  float x  = aNode.x + sin(uTime * 0.09 + ph * 2.3) * 16.0;',
+    '  float z  = aNode.y + uTravel;',
+    '  vec3 world = vec3(x, y, z);',
+    '  float d = distance(world, uEye);',
+    '  float fog = exp(-(d * 0.0052) * (d * 0.0052));',
+    // Slow twinkle, offset per node.
+    '  vFade = fog * (0.45 + 0.55 * sin(uTime * 0.7 + ph * 3.1));',
+    '  gl_Position = uMVP * vec4(world, 1.0);',
+    '  gl_PointSize = clamp(320.0 / d, 1.5, 7.0) * uDpr;',
+    '}'
+  ].join('\n');
+
+  var FRAG_PT = [
+    '#version 300 es',
+    'precision highp float;',
+    'in float vFade;',
+    'uniform vec3 uColor;',
+    'out vec4 frag;',
+    'void main() {',
+    // Round the square point sprite off into a soft dot.
+    '  float r = length(gl_PointCoord - vec2(0.5));',
+    '  if (r > 0.5) discard;',
+    '  float a = smoothstep(0.5, 0.05, r) * vFade * 0.5;',
+    '  if (a < 0.004) discard;',
+    '  frag = vec4(uColor, a);',
+    '}'
+  ].join('\n');
+
+  var NODE_N = 70;
+  var progPt = null, vaoPt = null, UP = {};
+
+  (function buildNodes() {
+    var vsp = compile(gl.VERTEX_SHADER, VERT_PT);
+    var fsp = compile(gl.FRAGMENT_SHADER, FRAG_PT);
+    if (!vsp || !fsp) return;
+
+    progPt = gl.createProgram();
+    gl.attachShader(progPt, vsp);
+    gl.attachShader(progPt, fsp);
+    gl.linkProgram(progPt);
+    if (!gl.getProgramParameter(progPt, gl.LINK_STATUS)) {
+      console.warn('[waves] node link:', gl.getProgramInfoLog(progPt));
+      progPt = null;
+      return;
+    }
+
+    ['uMVP', 'uEye', 'uTime', 'uTravel', 'uDpr', 'uColor'].forEach(function (n) {
+      UP[n] = gl.getUniformLocation(progPt, n);
+    });
+
+    // Deterministic scatter — no Math.random, so the field is identical on
+    // every load and across resumes.
+    var data = new Float32Array(NODE_N * 3);
+    var seed = 20260816;
+    function rnd() {
+      seed = (seed * 1103515245 + 12345) & 0x7FFFFFFF;
+      return seed / 0x7FFFFFFF;
+    }
+    for (var i = 0; i < NODE_N; i++) {
+      data[i * 3]     = (rnd() * 2 - 1) * HALF_W * 0.95;
+      data[i * 3 + 1] = -rnd() * DEPTH;
+      data[i * 3 + 2] = rnd() * 6.283;
+    }
+
+    vaoPt = gl.createVertexArray();
+    gl.bindVertexArray(vaoPt);
+    var vbp = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vbp);
+    gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+    var lp = gl.getAttribLocation(progPt, 'aNode');
+    gl.enableVertexAttribArray(lp);
+    gl.vertexAttribPointer(lp, 3, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(vao);
+  })();
+
   /* ------------------------------------------------------------------ sheets
      travel  — world units this sheet rolls over one full page scroll
      drift   — idle roll per second, so the field breathes when parked
@@ -269,17 +364,18 @@
     // Far: tight, shallow, sits high in frame and holds the horizon.
     { y: 16.0, amp: 13.0, freq: 1.55, travel: 130, drift: 1.6, speed: 0.15,
       opacity: 0.52, fog: 0.0036,
-      low: [0.05, 0.20, 0.31], high: [0.20, 0.68, 0.80], hot: [0.42, 0.78, 0.88] },
+      low: [0.07, 0.13, 0.20], high: [0.34, 0.52, 0.67], hot: [0.47, 0.64, 0.79] },
 
     // Mid: the readable one — brightest crests, most of the character.
     { y: -16.0, amp: 22.0, freq: 0.92, travel: 250, drift: 2.6, speed: 0.19,
       opacity: 0.80, fog: 0.0042,
-      low: [0.04, 0.22, 0.33], high: [0.05, 0.92, 1.00], hot: [0.62, 0.80, 0.62] },
+      low: [0.08, 0.15, 0.23], high: [0.56, 0.73, 0.87], hot: [0.72, 0.78, 0.86] },
 
-    // Near: long, tall swells across the bottom. Carries the copper.
+    // Near: long, tall swells across the bottom. The only sheet allowed a
+    // trace of the fault colour, and only at the very top of a crest.
     { y: -54.0, amp: 33.0, freq: 0.55, travel: 420, drift: 3.8, speed: 0.12,
       opacity: 0.66, fog: 0.0050,
-      low: [0.06, 0.18, 0.27], high: [0.08, 0.82, 0.94], hot: [0.85, 0.52, 0.24] }
+      low: [0.09, 0.14, 0.21], high: [0.44, 0.61, 0.77], hot: [0.86, 0.46, 0.14] }
   ];
 
   /* ------------------------------------------------------------------ camera */
@@ -397,6 +493,20 @@
       gl.uniform3fv(U.uColHigh, s.high);
       gl.uniform3fv(U.uColHot, s.hot);
       gl.drawElements(gl.LINES, idx.length, gl.UNSIGNED_INT, 0);
+    }
+
+    if (progPt) {
+      gl.useProgram(progPt);
+      gl.bindVertexArray(vaoPt);
+      gl.uniformMatrix4fv(UP.uMVP, false, mvp);
+      gl.uniform3fv(UP.uEye, eye);
+      gl.uniform1f(UP.uTime, t);
+      gl.uniform1f(UP.uTravel, eased * 180);
+      gl.uniform1f(UP.uDpr, dpr);
+      gl.uniform3fv(UP.uColor, [0.62, 0.78, 0.92]);
+      gl.drawArrays(gl.POINTS, 0, NODE_N);
+      gl.useProgram(prog);
+      gl.bindVertexArray(vao);
     }
   }
 

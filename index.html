@@ -5,11 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVVD Lab — Computer Vision and Visual Diagnostics</title>
     <meta name="description" content="Computer Vision and Visual Diagnostics Lab - AI-Driven Visual Analytics, Automated Quality Inspection, and Robotics Perception.">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0b10'/><path d='M3 16C6 16 6 10 9 10S12 22 15 22' stroke='%2300f0ff' stroke-width='2' fill='none' stroke-linecap='round'/><g stroke='%2300f0ff' stroke-width='0.9' opacity='0.6'><path d='M15 22 L22 9'/><path d='M15 22 L22 22'/><path d='M22 9 L28 12'/><path d='M22 22 L28 12'/><path d='M22 22 L28 24'/></g><circle cx='22' cy='9' r='1.6' fill='%23ffffff'/><circle cx='22' cy='22' r='1.6' fill='%23ffffff'/><circle cx='28' cy='24' r='1.6' fill='%23ffffff'/><circle cx='28' cy='12' r='2.4' fill='%23d98a45'/></svg>">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%2032%2032%27%3E%3Crect%20width%3D%2732%27%20height%3D%2732%27%20rx%3D%277%27%20fill%3D%27%230e1116%27%2F%3E%3Cg%20fill%3D%27%238fb9dd%27%3E%3Crect%20x%3D%273%27%20y%3D%273%27%20width%3D%276%27%20height%3D%276%27%20rx%3D%271.2%27%20opacity%3D%27.85%27%2F%3E%3Crect%20x%3D%2710%27%20y%3D%273%27%20width%3D%276%27%20height%3D%276%27%20rx%3D%271.2%27%20opacity%3D%27.5%27%2F%3E%3Crect%20x%3D%2717%27%20y%3D%273%27%20width%3D%276%27%20height%3D%276%27%20rx%3D%271.2%27%20opacity%3D%27.65%27%2F%3E%3Crect%20x%3D%273%27%20y%3D%2710%27%20width%3D%276%27%20height%3D%276%27%20rx%3D%271.2%27%20opacity%3D%27.55%27%2F%3E%3Crect%20x%3D%273%27%20y%3D%2717%27%20width%3D%276%27%20height%3D%276%27%20rx%3D%271.2%27%20opacity%3D%27.7%27%2F%3E%3C%2Fg%3E%3Crect%20x%3D%2710%27%20y%3D%2710%27%20width%3D%276%27%20height%3D%276%27%20rx%3D%271.2%27%20fill%3D%27%23f97316%27%2F%3E%3Cg%20stroke%3D%27%238fb9dd%27%20stroke-width%3D%271.4%27%20fill%3D%27none%27%20stroke-linecap%3D%27round%27%20opacity%3D%27.9%27%3E%3Cpath%20d%3D%27M20%206%20L22%2015%27%2F%3E%3Cpath%20d%3D%27M13%2013%20L22%2015%27%2F%3E%3Cpath%20d%3D%27M6%2020%20L22%2015%27%2F%3E%3Cpath%20d%3D%27M22%2015%20L26%2025%27%2F%3E%3C%2Fg%3E%3Ccircle%20cx%3D%2722%27%20cy%3D%2715%27%20r%3D%272.3%27%20fill%3D%27%238fb9dd%27%2F%3E%3Ccircle%20cx%3D%2726%27%20cy%3D%2725%27%20r%3D%273.3%27%20fill%3D%27%23f97316%27%2F%3E%3C%2Fsvg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="styles.css?v=11">
     <!-- Set before first paint so reveal-on-scroll never flashes unstyled,
          and so the page stays fully readable with JavaScript off. -->
     <script>document.documentElement.classList.add('js');</script>
@@ -26,13 +26,13 @@
                 <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
                     <defs>
                         <linearGradient id="cvvdGh1" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0" stop-color="#2f8fa8" />
-                            <stop offset="1" stop-color="#00f0ff" />
+                            <stop offset="0" stop-color="#4a7ea6" />
+                            <stop offset="1" stop-color="#8fb9dd" />
                         </linearGradient>
                     </defs>
 
                     <!-- Image half -->
-                    <g class="mark-px" fill="#00f0ff">
+                    <g class="mark-px" fill="#8fb9dd">
                         <rect x="2.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.57" /><rect x="10.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.64" /><rect x="18.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.45" /><rect x="26.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.61" /><rect x="34.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.24" /><rect x="2.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.55" /><rect class="px-hot" x="10.0" y="10.0" width="7.2" height="7.2" rx="1.2" /><rect x="18.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.7" /><rect x="26.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.35" /><rect x="10.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.39" /><rect x="18.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.66" /><rect x="10.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.54" /><rect x="2.0" y="34.0" width="7.2" height="7.2" rx="1.2" opacity="0.4" />
                     </g>
 
@@ -63,8 +63,8 @@
                         <circle class="pulse pulse-d" r="2.1" />
 
                         <g class="mark-flag">
-                            <circle cx="54.0" cy="57.0" r="6.2" fill="none" stroke="#d98a45" stroke-width="1.3" />
-                            <circle cx="54.0" cy="57.0" r="3.6" fill="#d98a45" />
+                            <circle cx="54.0" cy="57.0" r="6.2" fill="none" stroke="#f97316" stroke-width="1.3" />
+                            <circle cx="54.0" cy="57.0" r="3.6" fill="#f97316" />
                         </g>
                     </g>
                 </svg>
@@ -134,9 +134,9 @@
                        aria-label="Inspection viewer cycling through four illustrative detections: a branching crack on an asphalt surface, porosity in a weld bead, delamination in a carbon-fibre panel, and an open trace on a printed circuit board. Each is marked with a detection box, a class label and a confidence score.">
           <defs>
                       <linearGradient id="scopeScanGrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0"    stop-color="#00f0ff" stop-opacity="0" />
-                        <stop offset="0.5"  stop-color="#00f0ff" stop-opacity="0.75" />
-                        <stop offset="1"    stop-color="#00f0ff" stop-opacity="0" />
+                        <stop offset="0"    stop-color="#8fb9dd" stop-opacity="0" />
+                        <stop offset="0.5"  stop-color="#8fb9dd" stop-opacity="0.75" />
+                        <stop offset="1"    stop-color="#8fb9dd" stop-opacity="0" />
                       </linearGradient>
                     </defs>
           <g class="dm is-on" data-demo="pavement"
@@ -691,13 +691,13 @@
                     <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
                     <defs>
                         <linearGradient id="cvvdGf2" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0" stop-color="#2f8fa8" />
-                            <stop offset="1" stop-color="#00f0ff" />
+                            <stop offset="0" stop-color="#4a7ea6" />
+                            <stop offset="1" stop-color="#8fb9dd" />
                         </linearGradient>
                     </defs>
 
                     <!-- Image half -->
-                    <g class="mark-px" fill="#00f0ff">
+                    <g class="mark-px" fill="#8fb9dd">
                         <rect x="2.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.57" /><rect x="10.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.64" /><rect x="18.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.45" /><rect x="26.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.61" /><rect x="34.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.24" /><rect x="2.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.55" /><rect class="px-hot" x="10.0" y="10.0" width="7.2" height="7.2" rx="1.2" /><rect x="18.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.7" /><rect x="26.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.35" /><rect x="10.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.39" /><rect x="18.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.66" /><rect x="10.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.54" /><rect x="2.0" y="34.0" width="7.2" height="7.2" rx="1.2" opacity="0.4" />
                     </g>
 
@@ -728,8 +728,8 @@
                         <circle class="pulse pulse-d" r="2.1" />
 
                         <g class="mark-flag">
-                            <circle cx="54.0" cy="57.0" r="6.2" fill="none" stroke="#d98a45" stroke-width="1.3" />
-                            <circle cx="54.0" cy="57.0" r="3.6" fill="#d98a45" />
+                            <circle cx="54.0" cy="57.0" r="6.2" fill="none" stroke="#f97316" stroke-width="1.3" />
+                            <circle cx="54.0" cy="57.0" r="3.6" fill="#f97316" />
                         </g>
                     </g>
                 </svg>
@@ -763,7 +763,7 @@
         </div>
     </footer>
 
-    <script src="waves.js?v=9"></script>
-    <script src="main.js?v=9"></script>
+    <script src="waves.js?v=11"></script>
+    <script src="main.js?v=11"></script>
 </body>
 </html>

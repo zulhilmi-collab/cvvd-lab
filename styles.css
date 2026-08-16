@@ -5,23 +5,28 @@
    =========================================================================== */
 
 :root {
-  /* Ground */
-  --bg-dark: #0a0b10;
-  --bg-raise: #0e1017;
-  --bg-card: rgba(19, 22, 31, 0.62);
-  --bg-card-hover: rgba(27, 31, 43, 0.82);
+  /* Ground — graphite */
+  --bg-dark: #0e1116;
+  --bg-raise: #131820;
+  --bg-card: rgba(24, 29, 38, 0.62);
+  --bg-card-hover: rgba(33, 40, 51, 0.82);
 
-  /* Accents — cyan = signal, copper = anomaly. Never decorative. */
-  --accent-cyan: #00f0ff;
-  --accent-cyan-deep: #0891a8;
-  --accent-copper: #d98a45;
-  --accent-copper-deep: #b87333;
-  --accent-cyan-glow: rgba(0, 240, 255, 0.35);
+  /* Two colours carry all the meaning: --signal is the system looking,
+     --fault is the thing that is wrong. Safety orange is the hazard-marking
+     colour on real plant, so the fault is the only saturated thing on a page.
+     Everything else stays neutral or the two stop meaning anything. */
+  --signal: #8fb9dd;          /* 9.0:1 on the ground */
+  --signal-deep: #4a7ea6;
+  --signal-glow: rgba(143, 185, 221, 0.35);
+  --on-signal: #0b1620;
+  --fault: #f97316;           /* 6.7:1 on the ground */
+  --fault-deep: #c2560c;
+  --on-fault: #1a0c02;
 
-  /* Text — secondary lifted to #b6bccb for 4.5:1 on the card ground. */
+  /* Text — muted holds 5.1:1 on the ground, so small labels still pass. */
   --text-primary: #ffffff;
-  --text-secondary: #b6bccb;
-  --text-muted: #7f8798;
+  --text-secondary: #a8b0bd;
+  --text-muted: #7d8592;
 
   /* Lines */
   --line: rgba(255, 255, 255, 0.07);
@@ -88,7 +93,7 @@ a[href],
 /* Keyboard users get a visible target everywhere. */
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid var(--accent-cyan);
+  outline: 2px solid var(--signal);
   outline-offset: 3px;
   border-radius: 3px;
 }
@@ -99,8 +104,8 @@ button:focus-visible {
   top: 0;
   z-index: 200;
   padding: 0.75rem 1.25rem;
-  background: var(--accent-cyan);
-  color: #04252b;
+  background: var(--signal);
+  color: #0b1620;
   font-weight: 600;
   border-radius: 0 0 var(--radius-sm) 0;
 }
@@ -150,13 +155,13 @@ button:focus-visible {
      mid-band here was what flattened the field. */
   background:
     linear-gradient(to bottom,
-      rgba(10, 11, 16, 0.62) 0%,
-      rgba(10, 11, 16, 0.16) 30%,
-      rgba(10, 11, 16, 0.20) 62%,
-      rgba(10, 11, 16, 0.66) 100%),
+      rgba(14, 17, 22, 0.62) 0%,
+      rgba(14, 17, 22, 0.16) 30%,
+      rgba(14, 17, 22, 0.20) 62%,
+      rgba(14, 17, 22, 0.66) 100%),
     radial-gradient(64% 52% at 20% 40%,
-      rgba(10, 11, 16, 0.62) 0%,
-      rgba(10, 11, 16, 0) 74%);
+      rgba(14, 17, 22, 0.62) 0%,
+      rgba(14, 17, 22, 0) 74%);
 }
 
 /* --- Fallback: the original artwork, stacked and parallaxed. --------------- */
@@ -186,6 +191,9 @@ button:focus-visible {
   background-size: cover;
   background-repeat: no-repeat;
   mix-blend-mode: screen;
+  /* The fallback artwork is cyan-tinted and can't be re-authored, so nudge it
+     toward the steel ramp rather than letting it clash with the palette. */
+  filter: hue-rotate(-14deg) saturate(0.72);
   will-change: transform;
 }
 
@@ -232,7 +240,7 @@ h4 {
 p { text-wrap: pretty; }
 
 .text-gradient-cyan {
-  background: linear-gradient(96deg, #fff 18%, var(--accent-cyan) 96%);
+  background: linear-gradient(96deg, #fff 18%, var(--signal) 96%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -241,7 +249,7 @@ p { text-wrap: pretty; }
 
 .text-gradient-copper,
 .text-gradient-decision {
-  background: linear-gradient(96deg, #fff 18%, var(--accent-copper) 96%);
+  background: linear-gradient(96deg, #fff 18%, var(--fault) 96%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -279,12 +287,13 @@ p { text-wrap: pretty; }
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--fault);
   margin-bottom: var(--space-2);
 }
 
 .eyebrow-num {
-  color: var(--accent-cyan);
+  color: var(--fault);
+  opacity: 0.75;
 }
 
 .eyebrow::after {
@@ -328,16 +337,16 @@ p { text-wrap: pretty; }
 .btn:active { transform: translateY(1px); }
 
 .btn-primary {
-  background: var(--accent-cyan);
-  color: #04252b;
-  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.5),
-              0 8px 26px -12px var(--accent-cyan-glow);
+  background: var(--signal);
+  color: #0b1620;
+  box-shadow: 0 0 0 1px rgba(143, 185, 221, 0.5),
+              0 8px 26px -12px var(--signal-glow);
 }
 
 .btn-primary:hover {
-  background: #5ff6ff;
-  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.7),
-              0 12px 34px -12px var(--accent-cyan-glow);
+  background: #b3d3ec;
+  box-shadow: 0 0 0 1px rgba(143, 185, 221, 0.7),
+              0 12px 34px -12px var(--signal-glow);
 }
 
 .btn-secondary {
@@ -348,7 +357,7 @@ p { text-wrap: pretty; }
 
 .btn-secondary:hover {
   background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(0, 240, 255, 0.4);
+  border-color: rgba(143, 185, 221, 0.4);
 }
 
 .btn-sm {
@@ -364,7 +373,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(10, 11, 16, 0.62);
+  background: rgba(14, 17, 22, 0.62);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
   border-bottom: 1px solid transparent;
@@ -372,7 +381,7 @@ header {
 }
 
 header.is-scrolled {
-  background: rgba(10, 11, 16, 0.9);
+  background: rgba(14, 17, 22, 0.9);
   border-bottom-color: var(--line);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
 }
@@ -430,7 +439,7 @@ header.is-scrolled {
 }
 
 /* The defective input cell — same copper as the verdict it causes. */
-.logo-mark .px-hot { fill: #d98a45; }
+.logo-mark .px-hot { fill: var(--fault); }
 
 
 .logo-mark .mark-net {
@@ -447,10 +456,10 @@ header.is-scrolled {
    each passes, and the decision locks at the end. */
 
 .logo-mark .pulse {
-  fill: var(--accent-cyan);
+  fill: var(--signal);
   offset-rotate: 0deg;
   transform-box: view-box;
-  filter: drop-shadow(0 0 3px rgba(0, 240, 255, 0.9));
+  filter: drop-shadow(0 0 3px rgba(143, 185, 221, 0.9));
   animation: pulseRun 3s linear infinite;
 }
 
@@ -483,7 +492,7 @@ header.is-scrolled {
 
 /* The class that loses: present, connected, but never lit. */
 .logo-mark .out-alt {
-  fill: rgba(150, 190, 210, 0.42);
+  fill: rgba(160, 176, 196, 0.45);
 }
 
 /* Each hidden node peaks at a different value — the weights are not equal,
@@ -535,7 +544,7 @@ header.is-scrolled {
 }
 
 .nav-links a[aria-current="page"] {
-  color: var(--accent-cyan);
+  color: var(--signal);
 }
 
 .nav-toggle {
@@ -598,8 +607,8 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--accent-cyan);
-  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.16);
+  background: var(--signal);
+  box-shadow: 0 0 0 3px rgba(143, 185, 221, 0.16);
 }
 
 .hero-subtitle {
@@ -697,8 +706,8 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   border-radius: var(--radius-sm);
   overflow: hidden;
   background:
-    radial-gradient(120% 90% at 50% 0%, rgba(0, 240, 255, 0.05), rgba(0, 0, 0, 0) 62%),
-    #070810;
+    radial-gradient(120% 90% at 50% 0%, rgba(143, 185, 221, 0.05), rgba(0, 0, 0, 0) 62%),
+    #0a0d12;
   border: 1px solid var(--line);
 }
 
@@ -715,11 +724,11 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .dm-crack {
   fill: none;
-  stroke: var(--accent-copper);
+  stroke: var(--fault);
   stroke-width: 2.6;
   stroke-linecap: round;
   stroke-linejoin: round;
-  filter: drop-shadow(0 0 5px rgba(217, 138, 69, 0.5));
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.5));
 }
 
 .dm-crack-thin { stroke-width: 1.6; opacity: 0.85; }
@@ -728,16 +737,16 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .dm-bead path { fill: none; stroke: rgba(150, 165, 185, 0.22); stroke-width: 1.4; }
 
 .dm-pore circle {
-  fill: var(--accent-copper);
+  fill: var(--fault);
   opacity: 0.85;
-  filter: drop-shadow(0 0 4px rgba(217, 138, 69, 0.45));
+  filter: drop-shadow(0 0 4px rgba(249, 115, 22, 0.45));
 }
 
 .dm-weave path { fill: none; stroke: rgba(150, 165, 185, 0.15); stroke-width: 1; }
 
 .dm-blob {
-  fill: rgba(217, 138, 69, 0.17);
-  stroke: var(--accent-copper);
+  fill: rgba(249, 115, 22, 0.17);
+  stroke: var(--fault);
   stroke-width: 1.8;
   stroke-linejoin: round;
 }
@@ -746,15 +755,15 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .dm-pad circle { fill: rgba(150, 165, 185, 0.38); }
 
 .dm-break path {
-  stroke: #070810;
+  stroke: #0a0d12;
   stroke-width: 5;
 }
 
 .dm-break circle {
   fill: none;
-  stroke: var(--accent-copper);
+  stroke: var(--fault);
   stroke-width: 1.8;
-  filter: drop-shadow(0 0 5px rgba(217, 138, 69, 0.55));
+  filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.55));
 }
 
 /* --- detection overlay ---------------------------------------------------
@@ -763,22 +772,22 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .dm-box {
   fill: none;
-  stroke: rgba(0, 240, 255, 0.45);
+  stroke: rgba(143, 185, 221, 0.45);
   stroke-width: 1.2;
   stroke-dasharray: 6 5;
 }
 
 .dm-tick path {
   fill: none;
-  stroke: var(--accent-cyan);
+  stroke: var(--signal);
   stroke-width: 2;
   stroke-linecap: square;
 }
 
-.dm-chip { fill: var(--accent-copper); }
+.dm-chip { fill: var(--fault); }
 
 .dm-chip-t {
-  fill: #22150a;
+  fill: #1a0c02;
   font-family: var(--font-data);
   font-size: 10px;
   font-weight: 500;
@@ -787,7 +796,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .scope-frame path {
   fill: none;
-  stroke: rgba(0, 240, 255, 0.3);
+  stroke: rgba(143, 185, 221, 0.3);
   stroke-width: 1.4;
 }
 
@@ -830,9 +839,9 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .scope-tab:hover { color: var(--text-secondary); background: rgba(255, 255, 255, 0.06); }
 
 .scope-tab.is-on {
-  color: var(--accent-cyan);
-  border-color: rgba(0, 240, 255, 0.45);
-  background: rgba(0, 240, 255, 0.08);
+  color: var(--signal);
+  border-color: rgba(143, 185, 221, 0.45);
+  background: rgba(143, 185, 221, 0.08);
 }
 
 /* --- readout ------------------------------------------------------------- */
@@ -863,7 +872,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   overflow-wrap: anywhere;
 }
 
-.scope-read dd.is-hit { color: var(--accent-copper); }
+.scope-read dd.is-hit { color: var(--fault); }
 
 .scope-foot {
   font-family: var(--font-data);
@@ -885,7 +894,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .proof {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: rgba(10, 11, 16, 0.42);
+  background: rgba(14, 17, 22, 0.42);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -926,14 +935,14 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .proof-item strong a {
   color: inherit;
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.4);
+  border-bottom: 1px solid rgba(143, 185, 221, 0.4);
   padding-bottom: 1px;
   transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
 }
 
 .proof-item strong a:hover {
-  color: var(--accent-cyan);
-  border-bottom-color: var(--accent-cyan);
+  color: var(--signal);
+  border-bottom-color: var(--signal);
 }
 
 .proof-item span {
@@ -970,7 +979,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .glass-card:hover {
   transform: translateY(-4px);
   background: var(--bg-card-hover);
-  border-color: rgba(0, 240, 255, 0.22);
+  border-color: rgba(143, 185, 221, 0.22);
 }
 
 .glass-card h3 {
@@ -982,6 +991,11 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   color: var(--text-secondary);
   font-size: 0.94rem;
 }
+
+/* These are <p> too, so they lose to .glass-card p on specificity unless the
+   selector is qualified. Without this the news dates render body-grey. */
+.glass-card .card-date { color: var(--fault); font-size: 0.7rem; }
+.glass-card .cap-tag { color: var(--signal); font-size: var(--fs-micro); }
 
 /* --- capability bento -----------------------------------------------------
    Six equal cards is the template tell. One lead cell carrying the argument,
@@ -1002,7 +1016,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   min-height: 300px;
   padding: var(--space-5) var(--space-4) var(--space-4);
   background:
-    radial-gradient(120% 90% at 8% 6%, rgba(0, 240, 255, 0.11) 0%, rgba(0, 240, 255, 0) 62%),
+    radial-gradient(120% 90% at 8% 6%, rgba(143, 185, 221, 0.11) 0%, rgba(143, 185, 221, 0) 62%),
     var(--bg-card);
 }
 
@@ -1022,7 +1036,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   font-size: var(--fs-micro);
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent-cyan);
+  color: var(--signal);
   margin-bottom: 0.8rem;
 }
 
@@ -1031,7 +1045,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   font-size: 0.7rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent-copper);
+  color: var(--fault);
   margin-bottom: 0.55rem;
 }
 
@@ -1092,9 +1106,9 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   transform: rotateY(180deg);
   justify-content: center;
   background:
-    radial-gradient(120% 90% at 12% 8%, rgba(0, 240, 255, 0.1), rgba(0, 0, 0, 0) 60%),
+    radial-gradient(120% 90% at 12% 8%, rgba(143, 185, 221, 0.1), rgba(0, 0, 0, 0) 60%),
     var(--bg-card-hover);
-  border-color: rgba(0, 240, 255, 0.22);
+  border-color: rgba(143, 185, 221, 0.22);
 }
 
 .fc-art {
@@ -1110,7 +1124,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.18em;
-  color: var(--accent-cyan);
+  color: var(--signal);
 }
 
 .flip-title {
@@ -1131,16 +1145,16 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 /* --- schematic parts ------------------------------------------------------ */
 
 .fc-art .fc-line   { fill: none; stroke: rgba(150, 165, 185, 0.42); stroke-width: 1.6; stroke-linecap: round; }
-.fc-art .fc-joint  { fill: none; stroke: rgba(0, 240, 255, 0.6); stroke-width: 1.6; }
+.fc-art .fc-joint  { fill: none; stroke: rgba(143, 185, 221, 0.6); stroke-width: 1.6; }
 .fc-art .fc-die    { fill: none; stroke: rgba(150, 165, 185, 0.3); stroke-width: 1; }
 .fc-art .fc-bead   { fill: none; stroke: rgba(150, 165, 185, 0.24); stroke-width: 1.2; }
-.fc-art .fc-det    { fill: none; stroke: rgba(0, 240, 255, 0.5); stroke-width: 1.4; }
-.fc-art .fc-det rect { stroke-dasharray: 5 4; stroke: rgba(0, 240, 255, 0.3); }
+.fc-art .fc-det    { fill: none; stroke: rgba(143, 185, 221, 0.5); stroke-width: 1.4; }
+.fc-art .fc-det rect { stroke-dasharray: 5 4; stroke: rgba(143, 185, 221, 0.3); }
 
-.fc-art .fc-hot    { fill: var(--accent-copper); }
-.fc-art .fc-hot-r  { fill: var(--accent-copper); }
-.fc-art .fc-hot-f circle { fill: var(--accent-copper); opacity: 0.9; }
-.fc-art .fc-crack  { fill: none; stroke: var(--accent-copper); stroke-width: 2.2; stroke-linecap: round; }
+.fc-art .fc-hot    { fill: var(--fault); }
+.fc-art .fc-hot-r  { fill: var(--fault); }
+.fc-art .fc-hot-f circle { fill: var(--fault); opacity: 0.9; }
+.fc-art .fc-crack  { fill: none; stroke: var(--fault); stroke-width: 2.2; stroke-linecap: round; }
 
 /* --- team ---------------------------------------------------------------- */
 
@@ -1152,7 +1166,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   border-radius: 50%;
   margin: 0 auto var(--space-3);
   background: var(--bg-card-hover);
-  border: 1px solid rgba(0, 240, 255, 0.4);
+  border: 1px solid rgba(143, 185, 221, 0.4);
   overflow: hidden;
   position: relative;
 }
@@ -1213,7 +1227,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .team-role {
   font-family: var(--font-data);
-  color: var(--accent-copper);
+  color: var(--fault);
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -1241,14 +1255,14 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   font-size: 0.68rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--accent-cyan);
+  color: var(--signal);
   text-decoration: none;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.35);
+  border-bottom: 1px solid rgba(143, 185, 221, 0.35);
   padding-bottom: 2px;
   transition: border-color 0.2s var(--ease-out);
 }
 
-.team-link:hover { border-bottom-color: var(--accent-cyan); }
+.team-link:hover { border-bottom-color: var(--signal); }
 
 /* ===========================================================================
    Closing CTA
@@ -1260,7 +1274,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
-    radial-gradient(90% 130% at 50% 0%, rgba(0, 240, 255, 0.09) 0%, rgba(0, 240, 255, 0) 60%),
+    radial-gradient(90% 130% at 50% 0%, rgba(143, 185, 221, 0.09) 0%, rgba(143, 185, 221, 0) 60%),
     rgba(14, 16, 23, 0.55);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
@@ -1287,7 +1301,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
    =========================================================================== */
 
 footer {
-  background: rgba(8, 9, 13, 0.92);
+  background: rgba(10, 12, 16, 0.92);
   border-top: 1px solid var(--line);
   padding: var(--space-6) 0 var(--space-4);
   margin-top: var(--space-6);
@@ -1315,7 +1329,7 @@ footer {
   transition: color 0.2s ease;
 }
 
-.footer-links a:hover { color: var(--accent-cyan); }
+.footer-links a:hover { color: var(--signal); }
 
 .footer-bottom {
   border-top: 1px solid var(--line);
@@ -1370,12 +1384,12 @@ footer {
 .chip:hover { background: rgba(255, 255, 255, 0.07); }
 
 .chip.is-on {
-  background: rgba(0, 240, 255, 0.12);
-  border-color: rgba(0, 240, 255, 0.5);
-  color: var(--accent-cyan);
+  background: rgba(143, 185, 221, 0.12);
+  border-color: rgba(143, 185, 221, 0.5);
+  color: var(--signal);
 }
 
-.chip.is-on span { color: var(--accent-cyan); }
+.chip.is-on span { color: var(--signal); }
 
 .pub-count {
   font-family: var(--font-data);
@@ -1430,8 +1444,8 @@ footer {
 }
 
 .pub-meta .dot { opacity: 0.4; margin: 0 0.15rem; }
-.pub-cites { color: var(--accent-cyan); }
-.pub-oa { color: var(--accent-copper); }
+.pub-cites { color: var(--signal); }
+.pub-oa { color: var(--fault); }
 
 .pub-side {
   display: flex;
@@ -1463,15 +1477,15 @@ footer {
   font-family: var(--font-data);
   font-size: 0.68rem;
   letter-spacing: 0.1em;
-  color: var(--accent-cyan);
+  color: var(--signal);
   text-decoration: none;
-  border: 1px solid rgba(0, 240, 255, 0.32);
+  border: 1px solid rgba(143, 185, 221, 0.32);
   border-radius: var(--radius-sm);
   padding: 0.2rem 0.55rem;
   transition: background 0.2s var(--ease-out);
 }
 
-.pub-doi:hover { background: rgba(0, 240, 255, 0.12); }
+.pub-doi:hover { background: rgba(143, 185, 221, 0.12); }
 
 @media (max-width: 700px) {
   .pub-item {
@@ -1553,7 +1567,7 @@ footer {
     align-items: stretch;
     gap: 0;
     padding: 0.5rem var(--space-4) var(--space-3);
-    background: rgba(10, 11, 16, 0.97);
+    background: rgba(14, 17, 22, 0.97);
     backdrop-filter: var(--glass-blur);
     -webkit-backdrop-filter: var(--glass-blur);
     border-bottom: 1px solid var(--line);
