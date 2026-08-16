@@ -37,7 +37,10 @@
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.13);
   --glass-border: 1px solid var(--line);
-  --glass-blur: blur(10px);   /* less smear, so the field stays legible */
+  /* Frost is for the header only. The wave field is built from 1px contour
+     lines; a backdrop blur averages them into a flat wash, which kills the
+     movement the background exists to show. Card surfaces stay unblurred. */
+  --glass-blur: blur(12px);
 
   /* Type */
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -681,8 +684,6 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 
 .scope {
   background: var(--bg-card);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
   border-radius: var(--radius);
   padding: var(--space-3);
@@ -900,8 +901,6 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background: rgba(14, 17, 22, 0.36);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
 }
 
 .proof-inner {
@@ -971,8 +970,6 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .glass-card {
   position: relative;
   background: var(--bg-card);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   border: var(--glass-border);
   border-radius: var(--radius);
   padding: var(--space-4);
@@ -1100,8 +1097,6 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   border-radius: var(--radius);
   border: var(--glass-border);
   background: var(--bg-card);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   overflow: hidden;
@@ -1281,8 +1276,6 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   background:
     radial-gradient(90% 130% at 50% 0%, rgba(143, 185, 221, 0.09) 0%, rgba(143, 185, 221, 0) 60%),
     rgba(14, 16, 23, 0.55);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .cta-band h2 { margin-bottom: var(--space-2); }
