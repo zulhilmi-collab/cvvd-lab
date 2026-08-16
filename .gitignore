@@ -10,7 +10,15 @@
 # have the originals elsewhere; the crops in the repo are independent of it.
 _source/
 
+# Partner logo masters. The committed parexus-320.* crops and the brochure's
+# embedded copy are independent of these.
 Parexus_logo-White.png
+Parexus_logo-Black.png
+
+# Local reference, not for the public site — carries direct phone and office
+# details. The banner it points at is committed; this page is just the
+# copy-paste source for the mail client.
+email-signature.html
 
 # Scratch previews
 _*.html
