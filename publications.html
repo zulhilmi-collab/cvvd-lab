@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications - CVVD Lab</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230a0b10'/><path d='M4 16C10 4 22 4 28 16' stroke='%23234a5e' stroke-width='1.2' fill='none'/><path d='M4 16C10 28 22 28 28 16' stroke='%23234a5e' stroke-width='1.2' fill='none'/><path d='M5 16C8 16 8 9 11 9S14 23 17 23 20 8 23 8 26 16 27 16' stroke='%2300f0ff' stroke-width='1.9' fill='none' stroke-linecap='round'/><circle cx='11' cy='9' r='1.7' fill='%23b87333'/><circle cx='17' cy='23' r='1.4' fill='%2300f0ff'/></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=9">
+    <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+    <header>
+        <div class="container nav-container">
+            <a href="index.html" class="logo" aria-label="CVVD Lab, home">
+                <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                    <defs>
+                        <linearGradient id="cvvdGh1" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#2f8fa8" />
+                            <stop offset="1" stop-color="#00f0ff" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Image half -->
+                    <g class="mark-px" fill="#00f0ff">
+                        <rect x="2.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.57" /><rect x="10.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.64" /><rect x="18.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.45" /><rect x="26.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.61" /><rect x="34.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.24" /><rect x="2.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.55" /><rect class="px-hot" x="10.0" y="10.0" width="7.2" height="7.2" rx="1.2" /><rect x="18.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.7" /><rect x="26.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.35" /><rect x="10.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.39" /><rect x="18.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.66" /><rect x="10.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.54" /><rect x="2.0" y="34.0" width="7.2" height="7.2" rx="1.2" opacity="0.4" />
+                    </g>
+
+                    <g class="mark-net">
+                        <g fill="none" stroke="url(#cvvdGh1)" stroke-linecap="round">
+                            <path stroke-width="2.22" opacity="0.77" d="M37.6 5.6 L52.0 24.0" />
+                            <path stroke-width="1.51" opacity="0.51" d="M29.6 13.6 L52.0 24.0" />
+                            <path stroke-width="1.76" opacity="0.6" d="M29.6 13.6 L38.0 38.0" />
+                            <path stroke-width="1.5" opacity="0.5" d="M21.6 21.6 L38.0 38.0" />
+                            <path stroke-width="1.78" opacity="0.61" d="M13.6 29.6 L38.0 38.0" />
+                            <path stroke-width="2.39" opacity="0.84" d="M13.6 29.6 L24.0 52.0" />
+                            <path stroke-width="2.29" opacity="0.8" d="M5.6 37.6 L24.0 52.0" />
+                            <path stroke-width="2.34" opacity="0.82" d="M24.0 52.0 L54.0 57.0" />
+                            <path stroke-width="0.93" opacity="0.29" d="M24.0 52.0 L57.0 39.0" />
+                            <path stroke-width="2.5" opacity="0.88" d="M38.0 38.0 L54.0 57.0" />
+                            <path stroke-width="1.07" opacity="0.34" d="M38.0 38.0 L57.0 39.0" />
+                            <path stroke-width="2.35" opacity="0.83" d="M52.0 24.0 L54.0 57.0" />
+                            <path stroke-width="0.97" opacity="0.3" d="M52.0 24.0 L57.0 39.0" />
+                        </g>
+                        <g class="mark-h" fill="url(#cvvdGh1)"><circle cx="24.0" cy="52.0" r="3.6" /><circle cx="38.0" cy="38.0" r="3.6" /><circle cx="52.0" cy="24.0" r="3.6" /></g>
+
+                        <!-- Head: two classes, one of them wins -->
+                        <circle class="out-alt" cx="57.0" cy="39.0" r="3.2" />
+
+                        <circle class="pulse pulse-a" r="2.3" />
+                        <circle class="pulse pulse-b" r="2.3" />
+                        <circle class="pulse pulse-c" r="2.3" />
+                        <circle class="pulse pulse-d" r="2.1" />
+
+                        <g class="mark-flag">
+                            <circle cx="54.0" cy="57.0" r="6.2" fill="none" stroke="#d98a45" stroke-width="1.3" />
+                            <circle cx="54.0" cy="57.0" r="3.6" fill="#d98a45" />
+                        </g>
+                    </g>
+                </svg>
+                <span class="logo-word">CVVD <span class="logo-lab">Lab</span></span>
+            </a>
+            <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Open menu">
+                <span></span><span></span><span></span>
+            </button>
+            <nav class="nav-links" id="site-nav">
+                <a href="index.html#capabilities">Research</a>
+                <a href="index.html#news">News</a>
+                <a href="team.html">Team</a>
+                <a href="publications.html">Publications</a>
+                <a href="recruitment.html">Recruitment</a>
+                <a href="#contact" class="btn btn-primary btn-sm">Collaborate with us</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main">
+      <section class="section container pub-section">
+        <div class="sec-head">
+          <p class="eyebrow"><span class="eyebrow-num">04</span> Research output</p>
+          <h1 class="text-gradient-cyan">Publications</h1>
+          <p class="sec-lede">
+            Peer-reviewed output from the lab and its principal investigators. Listings are
+            drawn from the Monash Pure research records of
+            <a href="https://research.monash.edu/en/persons/mohd-zulhilmi-paiz-ismadi" target="_blank" rel="noopener">Mohd-Zulhilmi Paiz Ismadi</a>
+            and <a href="https://research.monash.edu/en/persons/wang-xin" target="_blank" rel="noopener">Wang Xin</a>;
+            citation counts are Scopus figures at time of export.
+          </p>
+        </div>
+
+        <div class="pub-filter" role="group" aria-label="Filter publications by topic">
+          <button type="button" class="chip is-on" data-filter="all" aria-pressed="true">All <span>42</span></button>
+          <button type="button" class="chip" data-filter="cv" aria-pressed="false">Vision &amp; inspection <span>20</span></button>
+          <button type="button" class="chip" data-filter="shm" aria-pressed="false">Structural health <span>3</span></button>
+          <button type="button" class="chip" data-filter="other" aria-pressed="false">Wider engineering <span>19</span></button>
+        </div>
+
+        <p class="pub-count" role="status" aria-live="polite"></p>
+
+        <ol class="pub-list">
+          <li class="pub-item" data-topic="shm" data-year="2026">
+            <div class="pub-main">
+              <h3 class="pub-title">Impact of gas density, leakage pressure, and solid content on gas plume dynamics in soil slurries: a holistic perspective of underwater pipeline leaks</h3>
+              <p class="pub-authors">Kho, J. C., Wong, Z. Z., <b>Ismadi, M. Z.</b>, Lim, C. H., Chai, S. P. &amp; Raghunandan, M. E.</p>
+              <p class="pub-meta"><span class="pub-venue">Journal of Ocean Engineering and Science 11(2), 428–444</span> <span class="dot">·</span> <span class="pub-cites">1 citation</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2026</span>
+              <span class="pub-topic">Structural health</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2026">
+            <div class="pub-main">
+              <h3 class="pub-title">Mushroom growth stage detection and maturity prediction using lightweight vision and logistic models for smart cultivation</h3>
+              <p class="pub-authors">Fan, W., Chiew, Y. S., Ooi, E. H. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Smart Agricultural Technology 13, 101798</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2026</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="shm" data-year="2025">
+            <div class="pub-main">
+              <h3 class="pub-title">A parameterless approach for long-term creep prediction in concrete using hybrid CNN-transformer model</h3>
+              <p class="pub-authors">Li, C., Lim, C. H., Wang, Q., Kong, S. Y. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Structural Health Monitoring (accepted / in press)</span> <span class="dot">·</span> <span class="pub-cites">2 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2025</span>
+              <span class="pub-topic">Structural health</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2025">
+            <div class="pub-main">
+              <h3 class="pub-title">GMM-based VAE model with Normalising Flow for effective stochastic segmentation</h3>
+              <p class="pub-authors">Li, C., Lim, C. H. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Advances in Neural Information Processing Systems 38 (NeurIPS 2025)</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2025</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2025">
+            <div class="pub-main">
+              <h3 class="pub-title">Learning-based image reconstruction for spatial-variant single-pixel imaging</h3>
+              <p class="pub-authors">Shin, Z., Pua, C. H., Chai, T. Y., <b>Wang, X.</b> &amp; Chua, S. Y.</p>
+              <p class="pub-meta"><span class="pub-venue">Journal of Communications Software and Systems 21(3), 262–269</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2025</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2024">
+            <div class="pub-main">
+              <h3 class="pub-title">3D profile-based pothole segmentation and quantification</h3>
+              <p class="pub-authors">Pan, Z., Guan, J., Yang, X., Guo, A. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">International Journal of Hydromechatronics 7(1), 16–30</span> <span class="dot">·</span> <span class="pub-cites">9 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2024</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2024">
+            <div class="pub-main">
+              <h3 class="pub-title">A comparative study of deep learning models for image super-resolution</h3>
+              <p class="pub-authors">Lim, J. Y., Chiew, Y. S., Phan, R. C. W. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Asia Conference on Electronic Technology (ACET 2024), SPIE 13211</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2024</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2024">
+            <div class="pub-main">
+              <h3 class="pub-title">Enhancing single-pixel imaging reconstruction using hybrid transformer network with adaptive feature refinement</h3>
+              <p class="pub-authors">Lim, J., Chiew, Y., Phan, R. C. W., Chong, E. K. P. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Optics Express 32(18), 32370–32386</span> <span class="dot">·</span> <span class="pub-cites">9 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2024</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2024">
+            <div class="pub-main">
+              <h3 class="pub-title">One-stage 3D profile-based pavement crack detection and quantification</h3>
+              <p class="pub-authors">Pan, Z., Guan, J., Yang, X., Fan, K., Ong, J. C. H., Guo, N. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Automation in Construction 153, 104946</span> <span class="dot">·</span> <span class="pub-cites">48 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2024</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2024">
+            <div class="pub-main">
+              <h3 class="pub-title">Unharvested palm fruit bunch ripeness detection with hybrid colour correction</h3>
+              <p class="pub-authors">Chang, C., Parthiban, R., Kalavally, V., Hung, Y. M. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Smart Agricultural Technology 9, 100643</span> <span class="dot">·</span> <span class="pub-cites">12 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2024</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">A comparison between Fourier and Hadamard single-pixel imaging in deep learning-enhanced image reconstruction</h3>
+              <p class="pub-authors">Lim, J. Y., Roslan, M. R., Lim, J. Y., Monn Baskaran, V., Chiew, Y. S., Phan, R. C. W. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">IEEE Sensors Letters 7(9), 2475–1472</span> <span class="dot">·</span> <span class="pub-cites">10 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">A deep context learning based PCB defect detection model with anomalous trend alarming system</h3>
+              <p class="pub-authors">Lim, J. Y., Lim, J. Y., Baskaran, V. M. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Results in Engineering 17, 100968</span> <span class="dot">·</span> <span class="pub-cites">89 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">Active mode single-pixel non-line-of-sight imaging system based on second-order correlation and diffraction</h3>
+              <p class="pub-authors">Li, M., Xu, X., Wang, X., Yao, Z. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Journal of Optics 25(1), 015702</span> <span class="dot">·</span> <span class="pub-cites">3 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">Automatic pavement crack segmentation using a generative adversarial network (GAN)-based convolutional neural network</h3>
+              <p class="pub-authors">Pan, Z., Lau, S. L. H., Yang, X., Guo, N. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Results in Engineering 19, 101267</span> <span class="dot">·</span> <span class="pub-cites">44 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">Feature pyramid network with self-guided attention refinement module for crack segmentation</h3>
+              <p class="pub-authors">Ong, J. C., Lau, S. L. L., <b>Ismadi, M.-Z.</b> &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Structural Health Monitoring 22(1), 672–688</span> <span class="dot">·</span> <span class="pub-cites">49 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              <a class="pub-doi" href="https://doi.org/10.1177/14759217231175654" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">Passive flow-field control using dimples for performance enhancement of horizontal axis wind turbine</h3>
+              <p class="pub-authors">Azlan, F., Tan, M. K., Tan, B. T. &amp; <b>Ismadi, M. Z.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Energy 271, 127090</span> <span class="dot">·</span> <span class="pub-cites">23 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">Single-pixel image reconstruction based on block compressive sensing and convolutional neural network</h3>
+              <p class="pub-authors">Lau, S. L. H., Lim, J., Chong, E. K. P. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">International Journal of Hydromechatronics 6(3), 258–273</span> <span class="dot">·</span> <span class="pub-cites">21 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2023">
+            <div class="pub-main">
+              <h3 class="pub-title">Single-stripe-enhanced spacetime stereo reconstruction for concrete defect identification</h3>
+              <p class="pub-authors">Hua, L., Deng, J., Shi, Z., <b>Wang, X.</b> &amp; Lu, Y.</p>
+              <p class="pub-meta"><span class="pub-venue">Automation in Construction 156, 105136</span> <span class="dot">·</span> <span class="pub-cites">10 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2023</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2022">
+            <div class="pub-main">
+              <h3 class="pub-title">A hybrid method for pavement crack width measurement</h3>
+              <p class="pub-authors">Ong, J. C. H., <b>Ismadi, M.-Z. P.</b> &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Measurement 197, 111260</span> <span class="dot">·</span> <span class="pub-cites">38 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2022</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2022">
+            <div class="pub-main">
+              <h3 class="pub-title">A laboratory prototype of automatic pavement crack sealing based on a modified 3D printer</h3>
+              <p class="pub-authors">Liu, J., Yang, X., <b>Wang, X.</b> &amp; Yam, J. W.</p>
+              <p class="pub-meta"><span class="pub-venue">International Journal of Pavement Engineering 23(9), 2969–2980</span> <span class="dot">·</span> <span class="pub-cites">43 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2022</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2022">
+            <div class="pub-main">
+              <h3 class="pub-title">Transparent object reconstruction based on compressive sensing and super-resolution convolutional neural network</h3>
+              <p class="pub-authors">Mathai, A., Mengdi, L., Lau, S., Guo, N. &amp; <b>Wang, X.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Photonic Sensors 12(4), 220413</span> <span class="dot">·</span> <span class="pub-cites">9 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2022</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2021">
+            <div class="pub-main">
+              <h3 class="pub-title">Acoustic enhancement of aerobic greywater treatment processes</h3>
+              <p class="pub-authors">Chan, J. S., Poh, P. E., <b>Ismadi, M. Z. P.</b>, Yeo, L. Y. &amp; Tan, M. K.</p>
+              <p class="pub-meta"><span class="pub-venue">Journal of Water Process Engineering 44, 102321</span> <span class="dot">·</span> <span class="pub-cites">6 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2021</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="shm" data-year="2021">
+            <div class="pub-main">
+              <h3 class="pub-title">Advancements in fibre-reinforced polymer composite materials damage detection methods: towards achieving energy-efficient SHM systems</h3>
+              <p class="pub-authors">Ahmed, O., <b>Wang, X.</b>, Tran, M.-V. &amp; <b>Ismadi, M.-Z.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Composites Part B: Engineering 223, 109136</span> <span class="dot">·</span> <span class="pub-cites">190 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2021</span>
+              <span class="pub-topic">Structural health</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2021">
+            <div class="pub-main">
+              <h3 class="pub-title">Investigation on universal tool wear measurement technique using image-based cross-correlation analysis</h3>
+              <p class="pub-authors">Fong, K. M., <b>Wang, X.</b>, Kamaruddin, S. &amp; <b>Ismadi, M. Z.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Measurement 169, 108489</span> <span class="dot">·</span> <span class="pub-cites">72 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2021</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2021">
+            <div class="pub-main">
+              <h3 class="pub-title">Nanofiltration using graphene-epoxy filter media actuated by surface acoustic waves</h3>
+              <p class="pub-authors">Chan, J. S., Hung, Y. M., <b>Ismadi, M. Z. P.</b>, Yeo, L. Y. &amp; Tan, M. K.</p>
+              <p class="pub-meta"><span class="pub-venue">Physical Review Applied 15(3), 034078</span> <span class="dot">·</span> <span class="pub-cites">7 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2021</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2021">
+            <div class="pub-main">
+              <h3 class="pub-title">Review on optimisation methods of wind farm array under three classical wind condition problems</h3>
+              <p class="pub-authors">Azlan, F., Kurnia, J. C., Tan, B. T. &amp; <b>Ismadi, M.-Z.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Renewable and Sustainable Energy Reviews 135, 110047</span> <span class="dot">·</span> <span class="pub-cites">80 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2021</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2020">
+            <div class="pub-main">
+              <h3 class="pub-title">Enhancement of biogas/air combustion by hydrogen addition at elevated temperatures</h3>
+              <p class="pub-authors">Nurmukan, D., Chen, T. J. M., Hung, Y. M., <b>Ismadi, M. Z.</b>, Chong, C. T. &amp; Tran, M. V.</p>
+              <p class="pub-meta"><span class="pub-venue">International Journal of Energy Research 44(3), 1519–1534</span> <span class="dot">·</span> <span class="pub-cites">12 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2020</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2020">
+            <div class="pub-main">
+              <h3 class="pub-title">Enhancing greywater treatment via MHz-order surface acoustic waves</h3>
+              <p class="pub-authors">Chan, J. S., Poh, P. E., <b>Ismadi, M. Z. P.</b>, Yeo, L. Y. &amp; Tan, M. K.</p>
+              <p class="pub-meta"><span class="pub-venue">Water Research 169, 115187</span> <span class="dot">·</span> <span class="pub-cites">9 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2020</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2018">
+            <div class="pub-main">
+              <h3 class="pub-title">A comparative analysis of attainment of program outcomes for courses with and without the use of modern tools</h3>
+              <p class="pub-authors">Ovinis, M., Karuppanan, S., Sulaiman, S. A., Melor, P. S., <b>Paiz, M. Z.</b> &amp; Urquia, A.</p>
+              <p class="pub-meta"><span class="pub-venue">UTP-UMP-VIT Symposium on Energy Systems (SES 2018), MATEC Web of Conferences 225</span> <span class="dot">·</span> <span class="pub-cites">6 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2018</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2018">
+            <div class="pub-main">
+              <h3 class="pub-title">Aligning student projects and curriculum design in mechanical engineering design courses to meet the needs of local industries</h3>
+              <p class="pub-authors">Jen Nee, L., <b>Ismadi, M. Z. P.</b>, Boon Thong, T. &amp; Wordley, S.</p>
+              <p class="pub-meta"><span class="pub-venue">Australasian Association for Engineering Education (AAEE 2018)</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2018</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2018">
+            <div class="pub-main">
+              <h3 class="pub-title">Impact of capacity loss factors in front-of-line IC packaging on production performance: a case study</h3>
+              <p class="pub-authors">Yen, L. H., Kamaruddin, S., <b>Ismadi, Z. P.</b>, Prakash, J. &amp; Mehat, N. M.</p>
+              <p class="pub-meta"><span class="pub-venue">International Conference on Industrial Engineering and Operations Management (IEOM 2018), 910–919</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2018</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2018">
+            <div class="pub-main">
+              <h3 class="pub-title">Implementation of team-teaching in a large class through a flipped learning approach for an engineering design unit</h3>
+              <p class="pub-authors"><b>Ismadi, M. Z. P.</b>, Jen Nee, L. &amp; Wordley, S.</p>
+              <p class="pub-meta"><span class="pub-venue">Australasian Association for Engineering Education (AAEE 2018)</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2018</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2018">
+            <div class="pub-main">
+              <h3 class="pub-title">The need of computer modelling and simulation (CMS) competency among employers in Malaysia</h3>
+              <p class="pub-authors"><b>Ismadi, M. Z. P.</b>, Kurnia, J. C., Sulaiman, S. A., Hassan, S., Awang, M., Yusoff, P. S. M. M. &amp; Urquia, A.</p>
+              <p class="pub-meta"><span class="pub-venue">UTP-UMP-VIT Symposium on Energy Systems (SES 2018), MATEC Web of Conferences 225</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2018</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="cv" data-year="2018">
+            <div class="pub-main">
+              <h3 class="pub-title">Wear detection of drill bit by image-based technique</h3>
+              <p class="pub-authors">Sukeri, M., <b>Paiz Ismadi, M. Z.</b>, Othman, A. R. &amp; Kamaruddin, S.</p>
+              <p class="pub-meta"><span class="pub-venue">3rd International Conference on Mechanical, Manufacturing and Process Plant Engineering (ICMMPE 2017), IOP Conf. Ser. Mater. Sci. Eng. 328</span> <span class="dot">·</span> <span class="pub-cites">9 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2018</span>
+              <span class="pub-topic">Vision &amp; inspection</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2017">
+            <div class="pub-main">
+              <h3 class="pub-title">Mitigating stress concentration through defense hole system for improvement in bearing strength of composite bolted joint, Part 1: numerical analysis</h3>
+              <p class="pub-authors">Othman, A. R., Jadee, K. J. &amp; <b>Ismadi, M. Z.</b></p>
+              <p class="pub-meta"><span class="pub-venue">Journal of Composite Materials 51(26), 3685–3699</span> <span class="dot">·</span> <span class="pub-cites">11 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2017</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2016">
+            <div class="pub-main">
+              <h3 class="pub-title">Determination of optimal PDC cutters geometry for multi-response optimization using the Taguchi method</h3>
+              <p class="pub-authors">Jamaludin, A. A. B., Kamaruddin, S. B., Othman, A. R. B. &amp; <b>Ismadi, M. Z. P.</b></p>
+              <p class="pub-meta"><span class="pub-venue">ARPN Journal of Engineering and Applied Sciences 11(22), 13410–13414</span> <span class="dot">·</span> <span class="pub-cites">1 citation</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2016</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2016">
+            <div class="pub-main">
+              <h3 class="pub-title">Optimization of agitation speed in spinner flask for microcarrier structural integrity and expansion of induced pluripotent stem cells</h3>
+              <p class="pub-authors">Gupta, P., <b>Ismadi, M. Z. P.</b>, Verma, P. J., Fouras, A., Jadhav, S., Bellare, J. &amp; Hourigan, K.</p>
+              <p class="pub-meta"><span class="pub-venue">Cytotechnology 68(1), 45–59</span> <span class="dot">·</span> <span class="pub-cites">47 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2016</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2016">
+            <div class="pub-main">
+              <h3 class="pub-title">The microstructure, physical and mechanical properties of silicon carbide with alumina and yttria as sintering additives</h3>
+              <p class="pub-authors">Johari, M. I. A., Mustapha, M., Mamat, O., Kakooei, S., Ginta, T. L. &amp; <b>Ismadi, M. Z. P.</b></p>
+              <p class="pub-meta"><span class="pub-venue">ARPN Journal of Engineering and Applied Sciences 11(22), 13300–13304</span> <span class="dot">·</span> <span class="pub-cites">3 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2016</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2014">
+            <div class="pub-main">
+              <h3 class="pub-title">Experimental characterisation of fluid mechanics in a spinner flask bioreactor</h3>
+              <p class="pub-authors"><b>Ismadi, M. Z. P.</b>, Hourigan, K. &amp; Fouras, A.</p>
+              <p class="pub-meta"><span class="pub-venue">Processes 2(4), 753–772</span> <span class="dot">·</span> <span class="pub-cites">32 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2014</span>
+              <span class="pub-topic">Wider engineering</span>
+              
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2014">
+            <div class="pub-main">
+              <h3 class="pub-title">Flow characterization of a spinner flask for induced pluripotent stem cell culture application</h3>
+              <p class="pub-authors"><b>Ismadi, M. Z. P.</b>, Gupta, P., Fouras, A., Verma, P. J., Jadhav, S., Bellare, J. &amp; Hourigan, K.</p>
+              <p class="pub-meta"><span class="pub-venue">PLoS ONE 9(10), e106493</span> <span class="dot">·</span> <span class="pub-cites">80 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2014</span>
+              <span class="pub-topic">Wider engineering</span>
+              <a class="pub-doi" href="https://doi.org/10.1371/journal.pone.0106493" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2013">
+            <div class="pub-main">
+              <h3 class="pub-title">Optimisation of a stirred bioreactor through the use of a novel holographic correlation velocimetry flow measurement technique</h3>
+              <p class="pub-authors"><b>Ismadi, M. Z. P.</b>, Higgins, S. P. A., Samarage, C. R., Paganin, D., Hourigan, K. &amp; Fouras, A.</p>
+              <p class="pub-meta"><span class="pub-venue">PLoS ONE 8(6), e65714</span> <span class="dot">·</span> <span class="pub-cites">10 citations</span> <span class="dot">·</span> <span class="pub-oa">Open access</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2013</span>
+              <span class="pub-topic">Wider engineering</span>
+              <a class="pub-doi" href="https://doi.org/10.1371/journal.pone.0065714" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </li>
+          <li class="pub-item" data-topic="other" data-year="2011">
+            <div class="pub-main">
+              <h3 class="pub-title">Experimental control of vortex breakdown by density effects</h3>
+              <p class="pub-authors"><b>Ismadi, M.</b>, Meunier, P., Fouras, A. &amp; Hourigan, K.</p>
+              <p class="pub-meta"><span class="pub-venue">Physics of Fluids 23(3), 1–9</span> <span class="dot">·</span> <span class="pub-cites">23 citations</span></p>
+            </div>
+            <div class="pub-side">
+              <span class="pub-year">2011</span>
+              <span class="pub-topic">Wider engineering</span>
+              <a class="pub-doi" href="https://doi.org/10.1063/1.3560383" target="_blank" rel="noopener">DOI</a>
+            </div>
+          </li>
+        </ol>
+      </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <a href="index.html" class="logo" style="margin-bottom: 1rem;" aria-label="CVVD Lab, home">
+                    <svg class="logo-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+                    <defs>
+                        <linearGradient id="cvvdGf2" x1="0" y1="0" x2="1" y2="1">
+                            <stop offset="0" stop-color="#2f8fa8" />
+                            <stop offset="1" stop-color="#00f0ff" />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Image half -->
+                    <g class="mark-px" fill="#00f0ff">
+                        <rect x="2.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.57" /><rect x="10.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.64" /><rect x="18.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.45" /><rect x="26.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.61" /><rect x="34.0" y="2.0" width="7.2" height="7.2" rx="1.2" opacity="0.24" /><rect x="2.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.55" /><rect class="px-hot" x="10.0" y="10.0" width="7.2" height="7.2" rx="1.2" /><rect x="18.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.7" /><rect x="26.0" y="10.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.35" /><rect x="10.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.39" /><rect x="18.0" y="18.0" width="7.2" height="7.2" rx="1.2" opacity="0.67" /><rect x="2.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.66" /><rect x="10.0" y="26.0" width="7.2" height="7.2" rx="1.2" opacity="0.54" /><rect x="2.0" y="34.0" width="7.2" height="7.2" rx="1.2" opacity="0.4" />
+                    </g>
+
+                    <g class="mark-net">
+                        <g fill="none" stroke="url(#cvvdGf2)" stroke-linecap="round">
+                            <path stroke-width="2.22" opacity="0.77" d="M37.6 5.6 L52.0 24.0" />
+                            <path stroke-width="1.51" opacity="0.51" d="M29.6 13.6 L52.0 24.0" />
+                            <path stroke-width="1.76" opacity="0.6" d="M29.6 13.6 L38.0 38.0" />
+                            <path stroke-width="1.5" opacity="0.5" d="M21.6 21.6 L38.0 38.0" />
+                            <path stroke-width="1.78" opacity="0.61" d="M13.6 29.6 L38.0 38.0" />
+                            <path stroke-width="2.39" opacity="0.84" d="M13.6 29.6 L24.0 52.0" />
+                            <path stroke-width="2.29" opacity="0.8" d="M5.6 37.6 L24.0 52.0" />
+                            <path stroke-width="2.34" opacity="0.82" d="M24.0 52.0 L54.0 57.0" />
+                            <path stroke-width="0.93" opacity="0.29" d="M24.0 52.0 L57.0 39.0" />
+                            <path stroke-width="2.5" opacity="0.88" d="M38.0 38.0 L54.0 57.0" />
+                            <path stroke-width="1.07" opacity="0.34" d="M38.0 38.0 L57.0 39.0" />
+                            <path stroke-width="2.35" opacity="0.83" d="M52.0 24.0 L54.0 57.0" />
+                            <path stroke-width="0.97" opacity="0.3" d="M52.0 24.0 L57.0 39.0" />
+                        </g>
+                        <g class="mark-h" fill="url(#cvvdGf2)"><circle cx="24.0" cy="52.0" r="3.6" /><circle cx="38.0" cy="38.0" r="3.6" /><circle cx="52.0" cy="24.0" r="3.6" /></g>
+
+                        <!-- Head: two classes, one of them wins -->
+                        <circle class="out-alt" cx="57.0" cy="39.0" r="3.2" />
+
+                        <circle class="pulse pulse-a" r="2.3" />
+                        <circle class="pulse pulse-b" r="2.3" />
+                        <circle class="pulse pulse-c" r="2.3" />
+                        <circle class="pulse pulse-d" r="2.1" />
+
+                        <g class="mark-flag">
+                            <circle cx="54.0" cy="57.0" r="6.2" fill="none" stroke="#d98a45" stroke-width="1.3" />
+                            <circle cx="54.0" cy="57.0" r="3.6" fill="#d98a45" />
+                        </g>
+                    </g>
+                </svg>
+                    <span class="logo-word">CVVD <span class="logo-lab">Lab</span></span>
+                </a>
+                <p style="color: var(--text-secondary); max-width: 300px;">
+                    Advancing the frontier of computer vision and visual diagnostics for research and industry.
+                </p>
+            </div>
+            <div class="footer-col">
+                <h4>Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html#about">Research</a></li>
+                    <li><a href="team.html">Team</a></li>
+                    <li><a href="publications.html">Publications</a></li>
+                    <li><a href="recruitment.html">Recruitment</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:contact@cvvd-lab.edu">contact@cvvd-lab.edu</a></li>
+                    <li><a href="#">Industry Partner Portal</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; 2026 Computer Vision & Visual Diagnostics Lab (CVVD). All rights reserved.</p>
+            <p>Monash University Malaysia</p>
+        </div>
+    </footer>
+
+    <script src="waves.js?v=9"></script>
+    <script src="main.js?v=9"></script>
+</body>
+</html>

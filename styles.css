@@ -1,0 +1,1629 @@
+/* ===========================================================================
+   CVVD Lab — design system
+   Dark technical ground, cyan for signal, copper for the one thing that's
+   wrong. Everything else is neutral so those two colours keep their meaning.
+   =========================================================================== */
+
+:root {
+  /* Ground */
+  --bg-dark: #0a0b10;
+  --bg-raise: #0e1017;
+  --bg-card: rgba(19, 22, 31, 0.62);
+  --bg-card-hover: rgba(27, 31, 43, 0.82);
+
+  /* Accents — cyan = signal, copper = anomaly. Never decorative. */
+  --accent-cyan: #00f0ff;
+  --accent-cyan-deep: #0891a8;
+  --accent-copper: #d98a45;
+  --accent-copper-deep: #b87333;
+  --accent-cyan-glow: rgba(0, 240, 255, 0.35);
+
+  /* Text — secondary lifted to #b6bccb for 4.5:1 on the card ground. */
+  --text-primary: #ffffff;
+  --text-secondary: #b6bccb;
+  --text-muted: #7f8798;
+
+  /* Lines */
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.13);
+  --glass-border: 1px solid var(--line);
+  --glass-blur: blur(14px);
+
+  /* Type */
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-display: 'Inter', 'Outfit', system-ui, sans-serif;
+  --font-data: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Fluid scale — one ramp, no magic numbers scattered through components. */
+  --fs-display: clamp(2.55rem, 1.55rem + 4.35vw, 5rem);
+  --fs-h2: clamp(1.85rem, 1.35rem + 1.9vw, 2.9rem);
+  --fs-h3: clamp(1.1rem, 1.02rem + 0.34vw, 1.32rem);
+  --fs-lede: clamp(1.02rem, 0.96rem + 0.3vw, 1.2rem);
+  --fs-micro: 0.72rem;
+
+  /* Spacing (density 4/10 — standard) */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2rem;
+  --space-5: 3rem;
+  --space-6: 4rem;
+  --space-7: 6rem;
+
+  --radius: 14px;
+  --radius-sm: 8px;
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+button,
+a[href],
+[role="button"] {
+  cursor: pointer;
+}
+
+/* Keyboard users get a visible target everywhere. */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 200;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent-cyan);
+  color: #04252b;
+  font-weight: 600;
+  border-radius: 0 0 var(--radius-sm) 0;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ===========================================================================
+   Background — 3D wave field
+   waves.js draws three wireframe wave surfaces in perspective and rolls them
+   through the wave function as you scroll. If WebGL2 is missing we fall back
+   to the original stacked-artwork parallax, which is what .no-webgl unlocks.
+   =========================================================================== */
+
+.wave-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Scrim: keeps the field atmospheric and the copy readable. Sits above the
+   canvas, below the content. */
+.wave-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Two jobs, split apart: the radial protects the headline column, the
+     linear only knocks back the very top and bottom edges. Weighting the
+     mid-band here was what flattened the field. */
+  background:
+    linear-gradient(to bottom,
+      rgba(10, 11, 16, 0.62) 0%,
+      rgba(10, 11, 16, 0.16) 30%,
+      rgba(10, 11, 16, 0.20) 62%,
+      rgba(10, 11, 16, 0.66) 100%),
+    radial-gradient(64% 52% at 20% 40%,
+      rgba(10, 11, 16, 0.62) 0%,
+      rgba(10, 11, 16, 0) 74%);
+}
+
+/* --- Fallback: the original artwork, stacked and parallaxed. --------------- */
+.wave-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+.no-webgl .wave-bg {
+  display: block;
+}
+
+.wave-layer {
+  position: absolute;
+  top: -30%;
+  left: -25%;
+  width: 150%;
+  height: 160%;
+  background-image: url("wave-bg.jpg");
+  background-image: image-set(url("wave-bg.webp") type("image/webp"),
+                              url("wave-bg.jpg") type("image/jpeg"));
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  mix-blend-mode: screen;
+  will-change: transform;
+}
+
+.wave-far  { scale: 1.2;         opacity: 0.3;  }
+.wave-mid  { scale: -1.02 1.02;  opacity: 0.42; } /* mirrored — crests land elsewhere */
+.wave-near { scale: 1.45;        opacity: 0.2;  }
+
+/* ===========================================================================
+   Typography
+   =========================================================================== */
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 0.98;
+  letter-spacing: -0.038em;
+  margin-bottom: var(--space-3);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  line-height: 1.08;
+  letter-spacing: -0.028em;
+  margin-bottom: var(--space-3);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+  letter-spacing: -0.014em;
+}
+
+h4 {
+  font-size: 0.95rem;
+  letter-spacing: -0.008em;
+}
+
+p { text-wrap: pretty; }
+
+.text-gradient-cyan {
+  background: linear-gradient(96deg, #fff 18%, var(--accent-cyan) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-gradient-copper,
+.text-gradient-decision {
+  background: linear-gradient(96deg, #fff 18%, var(--accent-copper) 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ===========================================================================
+   Layout
+   =========================================================================== */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-4);
+}
+
+.section {
+  padding: var(--space-7) 0;
+}
+
+/* Section header — eyebrow, rule, title, lede.
+   The numbered eyebrow is the engineering-site tell: it says the page is a
+   document with a structure, not a scroll of marketing panels. */
+.sec-head {
+  max-width: 700px;
+  margin-bottom: var(--space-5);
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-data);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--space-2);
+}
+
+.eyebrow-num {
+  color: var(--accent-cyan);
+}
+
+.eyebrow::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+}
+
+.sec-lede {
+  font-size: var(--fs-lede);
+  color: var(--text-secondary);
+  max-width: 62ch;
+}
+
+/* ===========================================================================
+   Buttons
+   A solid primary reads as a product surface; the outline-plus-glow it
+   replaces read as 2019 cyberpunk. Copper stays reserved for the anomaly.
+   =========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.78rem 1.35rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.008em;
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background 0.22s var(--ease-out),
+              border-color 0.22s var(--ease-out),
+              color 0.22s var(--ease-out),
+              transform 0.22s var(--ease-out),
+              box-shadow 0.22s var(--ease-out);
+}
+
+.btn:active { transform: translateY(1px); }
+
+.btn-primary {
+  background: var(--accent-cyan);
+  color: #04252b;
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.5),
+              0 8px 26px -12px var(--accent-cyan-glow);
+}
+
+.btn-primary:hover {
+  background: #5ff6ff;
+  box-shadow: 0 0 0 1px rgba(0, 240, 255, 0.7),
+              0 12px 34px -12px var(--accent-cyan-glow);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--line-strong);
+  color: var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(0, 240, 255, 0.4);
+}
+
+.btn-sm {
+  padding: 0.5rem 0.95rem;
+  font-size: 0.88rem;
+}
+
+/* ===========================================================================
+   Header
+   =========================================================================== */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(10, 11, 16, 0.62);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border-bottom: 1px solid transparent;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+header.is-scrolled {
+  background: rgba(10, 11, 16, 0.9);
+  border-bottom-color: var(--line);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 76px;
+  gap: var(--space-3);
+}
+
+.logo {
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+/* The viewBox runs past the mark so the mesh keeps going; the wordmark is
+   pulled back over that tail and layered above it. 210:64 at 106px wide puts
+   the verdict node just clear of the C. */
+.logo-mark {
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  overflow: visible;
+}
+
+.logo-word {
+  position: relative;
+  z-index: 1;
+}
+
+
+.logo-word {
+  font-family: var(--font-display);
+  font-size: 1.42rem;
+  font-weight: 800;
+  letter-spacing: -0.012em;
+  line-height: 1;
+}
+
+.logo-lab {
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+/* The mark resolves once on load: patch lands, layers fire, tail spills. */
+.logo-mark .mark-px {
+  opacity: 0;
+  animation: netIn 0.5s 0.1s ease-out forwards;
+}
+
+/* The defective input cell — same copper as the verdict it causes. */
+.logo-mark .px-hot { fill: #d98a45; }
+
+
+.logo-mark .mark-net {
+  opacity: 0;
+  animation: netIn 0.7s 0.95s ease-out forwards;
+}
+
+.logo-mark .mark-flood {
+  opacity: 0;
+  animation: netIn 0.9s 1.4s ease-out forwards;
+}
+
+/* One 3s inference cycle: pulses ride the edges, the hidden nodes fire as
+   each passes, and the decision locks at the end. */
+
+.logo-mark .pulse {
+  fill: var(--accent-cyan);
+  offset-rotate: 0deg;
+  transform-box: view-box;
+  filter: drop-shadow(0 0 3px rgba(0, 240, 255, 0.9));
+  animation: pulseRun 3s linear infinite;
+}
+
+.logo-mark .pulse-a { offset-path: path("M5.6 37.6 L24.0 52.0 L54.0 57.0"); animation-delay: 0s; }
+.logo-mark .pulse-b { offset-path: path("M21.6 21.6 L38.0 38.0 L54.0 57.0"); animation-delay: 0.3s; }
+.logo-mark .pulse-c { offset-path: path("M37.6 5.6 L52.0 24.0 L57.0 39.0"); animation-delay: 0.6s; }
+
+/* This one never clears the threshold: it travels part way and dies, which is
+   what most activations actually do. */
+.logo-mark .pulse-d {
+  offset-path: path("M13.6 29.6 L38.0 38.0");
+  animation-name: pulseStall;
+  animation-delay: 0.15s;
+}
+
+@keyframes pulseRun {
+  0%        { offset-distance: 0%;   opacity: 0; }
+  8%        { opacity: 1; }
+  88%       { opacity: 1; }
+  100%      { offset-distance: 100%; opacity: 0; }
+}
+
+@keyframes pulseStall {
+  0%        { offset-distance: 0%;  opacity: 0; }
+  10%       { opacity: 0.95; }
+  30%       { offset-distance: 58%; opacity: 0.7; }
+  42%       { offset-distance: 72%; opacity: 0; }
+  100%      { offset-distance: 72%; opacity: 0; }
+}
+
+/* The class that loses: present, connected, but never lit. */
+.logo-mark .out-alt {
+  fill: rgba(150, 190, 210, 0.42);
+}
+
+/* Each hidden node peaks at a different value — the weights are not equal,
+   which is the whole point of a trained model. */
+.logo-mark .mark-h circle {
+  animation: nodeFire 3s ease-in-out infinite;
+}
+
+.logo-mark .mark-h circle:nth-child(1) { --peak: 1;    animation-delay: 0.55s; }
+.logo-mark .mark-h circle:nth-child(2) { --peak: 0.62; animation-delay: 0.85s; }
+.logo-mark .mark-h circle:nth-child(3) { --peak: 0.85; animation-delay: 1.15s; }
+
+@keyframes nodeFire {
+  0%, 100% { opacity: 0.4; }
+  12%      { opacity: var(--peak, 1); }
+  40%      { opacity: 0.4; }
+}
+
+.logo-mark .mark-flag {
+  transform-origin: 56px 56px;
+  animation: flagPulse 3s 1.75s ease-in-out infinite;
+}
+
+@keyframes sweep  { to { stroke-dashoffset: 0; } }
+@keyframes netIn  { to { opacity: 1; } }
+
+@keyframes flagPulse {
+  0%, 72%, 100% { opacity: 0.72; transform: scale(1); }
+  84%           { opacity: 1;    transform: scale(1.3); }
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.nav-links a:not(.btn) {
+  color: var(--text-secondary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:not(.btn):hover,
+.nav-links a[aria-current="page"] {
+  color: var(--text-primary);
+}
+
+.nav-links a[aria-current="page"] {
+  color: var(--accent-cyan);
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  background: none;
+  border: none;
+}
+
+.nav-toggle span {
+  display: block;
+  height: 1.5px;
+  background: var(--text-primary);
+  transition: transform 0.25s var(--ease-out), opacity 0.2s ease;
+}
+
+header.nav-open .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+header.nav-open .nav-toggle span:nth-child(2) { opacity: 0; }
+header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ===========================================================================
+   Hero
+   =========================================================================== */
+
+.hero {
+  min-height: calc(100vh - 76px);
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--space-6);
+  padding: var(--space-5) var(--space-4) var(--space-6);
+}
+
+.hero-content { max-width: 640px; }
+
+.lab-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-data);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding: 0.4rem 0.8rem 0.4rem 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 100px;
+  background: rgba(255, 255, 255, 0.02);
+  margin-bottom: var(--space-3);
+}
+
+.lab-tag::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.16);
+}
+
+.hero-subtitle {
+  font-size: var(--fs-lede);
+  color: var(--text-secondary);
+  margin-bottom: var(--space-4);
+  max-width: 56ch;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-bottom: var(--space-5);
+}
+
+.metrics-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-3);
+}
+
+.metric {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 1.95rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.metric-label {
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+}
+
+.metric-note {
+  grid-column: 1 / -1;
+  flex-basis: 100%;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: -0.4rem;
+}
+
+.metric-note a { color: var(--text-secondary); }
+
+/* ===========================================================================
+   Hero panel — inspection viewer
+   Four assets, each carrying the detection the lab would return. Grammar is
+   consistent with the rest of the site: cyan is the system looking, copper is
+   the thing that is wrong.
+   =========================================================================== */
+
+.scope {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+  box-shadow: 0 24px 70px -40px rgba(0, 0, 0, 0.9);
+}
+
+.scope-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: var(--space-2);
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.scope-tag { color: var(--text-muted); }
+
+.scope-stage {
+  position: relative;
+  margin: 0.85rem 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, rgba(0, 240, 255, 0.05), rgba(0, 0, 0, 0) 62%),
+    #070810;
+  border: 1px solid var(--line);
+}
+
+.scope-svg { display: block; width: 100%; height: auto; }
+
+/* --- demo switching ------------------------------------------------------ */
+
+.dm { opacity: 0; transition: opacity 0.45s var(--ease-out); }
+.dm.is-on { opacity: 1; }
+
+/* --- asset substrates ---------------------------------------------------- */
+
+.dm-grain circle { fill: rgba(150, 165, 185, 0.13); }
+
+.dm-crack {
+  fill: none;
+  stroke: var(--accent-copper);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 5px rgba(217, 138, 69, 0.5));
+}
+
+.dm-crack-thin { stroke-width: 1.6; opacity: 0.85; }
+
+.dm-plate { fill: none; stroke: rgba(150, 165, 185, 0.26); stroke-width: 1.2; }
+.dm-bead path { fill: none; stroke: rgba(150, 165, 185, 0.22); stroke-width: 1.4; }
+
+.dm-pore circle {
+  fill: var(--accent-copper);
+  opacity: 0.85;
+  filter: drop-shadow(0 0 4px rgba(217, 138, 69, 0.45));
+}
+
+.dm-weave path { fill: none; stroke: rgba(150, 165, 185, 0.15); stroke-width: 1; }
+
+.dm-blob {
+  fill: rgba(217, 138, 69, 0.17);
+  stroke: var(--accent-copper);
+  stroke-width: 1.8;
+  stroke-linejoin: round;
+}
+
+.dm-trace path { fill: none; stroke: rgba(150, 165, 185, 0.3); stroke-width: 1.8; }
+.dm-pad circle { fill: rgba(150, 165, 185, 0.38); }
+
+.dm-break path {
+  stroke: #070810;
+  stroke-width: 5;
+}
+
+.dm-break circle {
+  fill: none;
+  stroke: var(--accent-copper);
+  stroke-width: 1.8;
+  filter: drop-shadow(0 0 5px rgba(217, 138, 69, 0.55));
+}
+
+/* --- detection overlay ---------------------------------------------------
+   Dashed box plus solid corner ticks. The ticks are what make it read as a
+   machine detection rather than a drawn rectangle. */
+
+.dm-box {
+  fill: none;
+  stroke: rgba(0, 240, 255, 0.45);
+  stroke-width: 1.2;
+  stroke-dasharray: 6 5;
+}
+
+.dm-tick path {
+  fill: none;
+  stroke: var(--accent-cyan);
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+
+.dm-chip { fill: var(--accent-copper); }
+
+.dm-chip-t {
+  fill: #22150a;
+  font-family: var(--font-data);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.scope-frame path {
+  fill: none;
+  stroke: rgba(0, 240, 255, 0.3);
+  stroke-width: 1.4;
+}
+
+.scope-scan {
+  fill: url(#scopeScanGrad);
+  opacity: 0;
+  animation: scopeScan 4.5s linear infinite;
+}
+
+@keyframes scopeScan {
+  0%   { transform: translateY(0);     opacity: 0; }
+  10%  { opacity: 0.9; }
+  90%  { opacity: 0.9; }
+  100% { transform: translateY(300px); opacity: 0; }
+}
+
+/* --- tabs ---------------------------------------------------------------- */
+
+.scope-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+
+.scope-tab {
+  min-height: 34px;
+  padding: 0.45rem 0.3rem;
+  font-family: var(--font-data);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out),
+              background 0.2s var(--ease-out);
+}
+
+.scope-tab:hover { color: var(--text-secondary); background: rgba(255, 255, 255, 0.06); }
+
+.scope-tab.is-on {
+  color: var(--accent-cyan);
+  border-color: rgba(0, 240, 255, 0.45);
+  background: rgba(0, 240, 255, 0.08);
+}
+
+/* --- readout ------------------------------------------------------------- */
+
+.scope-read {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem 1rem;
+  margin-top: 0.9rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--line);
+}
+
+.scope-read > div { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+
+.scope-read dt {
+  font-family: var(--font-data);
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.scope-read dd {
+  font-family: var(--font-data);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  overflow-wrap: anywhere;
+}
+
+.scope-read dd.is-hit { color: var(--accent-copper); }
+
+.scope-foot {
+  font-family: var(--font-data);
+  font-size: 0.66rem;
+  line-height: 1.55;
+  color: var(--text-muted);
+  padding-top: 0.8rem;
+  margin-top: 0.8rem;
+  border-top: 1px solid var(--line);
+}
+
+
+/* ===========================================================================
+   Proof band
+   Hero > Proof > Solution > CTA is the pattern every credible B2B and
+   deep-tech site follows. This is the rung the page was missing.
+   =========================================================================== */
+
+.proof {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: rgba(10, 11, 16, 0.42);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.proof-inner {
+  display: grid;
+  grid-template-columns: auto repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+}
+
+.proof-label {
+  font-family: var(--font-data);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-right: var(--space-4);
+  border-right: 1px solid var(--line);
+}
+
+.proof-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.proof-item strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+/* Outbound link in the proof band: readable as a link without the default
+   underline shouting louder than the credential itself. */
+.proof-item strong a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.4);
+  padding-bottom: 1px;
+  transition: color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+}
+
+.proof-item strong a:hover {
+  color: var(--accent-cyan);
+  border-bottom-color: var(--accent-cyan);
+}
+
+.proof-item span {
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ===========================================================================
+   Cards & grids
+   =========================================================================== */
+
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: var(--space-3); }
+.grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: var(--space-3); }
+/* auto-fill, not auto-fit: keeps the empty tracks so a section with one or two
+   people renders card-sized instead of stretching a lone card across the row. */
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-3); }
+
+.glass-card {
+  position: relative;
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: var(--glass-border);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  transition: transform 0.28s var(--ease-out),
+              background 0.28s var(--ease-out),
+              border-color 0.28s var(--ease-out);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  background: var(--bg-card-hover);
+  border-color: rgba(0, 240, 255, 0.22);
+}
+
+.glass-card h3 {
+  margin-bottom: 0.6rem;
+  color: var(--text-primary);
+}
+
+.glass-card p {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+}
+
+/* --- capability bento -----------------------------------------------------
+   Six equal cards is the template tell. One lead cell carrying the argument,
+   five supporting, is how Linear and Vercel structure the same content. */
+
+.bento {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.bento .cap-lead {
+  grid-column: span 2;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 300px;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  background:
+    radial-gradient(120% 90% at 8% 6%, rgba(0, 240, 255, 0.11) 0%, rgba(0, 240, 255, 0) 62%),
+    var(--bg-card);
+}
+
+.bento .cap-lead h3 {
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.85rem);
+  letter-spacing: -0.024em;
+  margin-bottom: 0.7rem;
+}
+
+.bento .cap-lead p {
+  font-size: 1rem;
+  max-width: 46ch;
+}
+
+.cap-tag {
+  font-family: var(--font-data);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  margin-bottom: 0.8rem;
+}
+
+.card-date {
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-copper);
+  margin-bottom: 0.55rem;
+}
+
+/* --- application areas: flip cards ---------------------------------------
+   Schematic on the front, explanation on the back. Hover flips for mouse,
+   focus flips for keyboard, and it is a real <button> so tap works too —
+   hover-only would strand touch and keyboard users entirely. */
+
+.flip-grid { perspective: 1400px; }
+
+.flip-card {
+  position: relative;
+  display: block;
+  height: 300px;
+  padding: 0;
+  background: none;
+  border: 0;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+}
+
+.flip-inner {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.62s var(--ease-out);
+}
+
+.flip-card:hover .flip-inner,
+.flip-card:focus-visible .flip-inner,
+.flip-card[aria-expanded="true"] .flip-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-front,
+.flip-back {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  padding: var(--space-3);
+  border-radius: var(--radius);
+  border: var(--glass-border);
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.flip-back {
+  transform: rotateY(180deg);
+  justify-content: center;
+  background:
+    radial-gradient(120% 90% at 12% 8%, rgba(0, 240, 255, 0.1), rgba(0, 0, 0, 0) 60%),
+    var(--bg-card-hover);
+  border-color: rgba(0, 240, 255, 0.22);
+}
+
+.fc-art {
+  position: absolute;
+  inset: auto 0 34%;
+  width: 100%;
+  height: auto;
+  opacity: 0.85;
+}
+
+.flip-num {
+  font-family: 'Outfit', var(--font-display);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--accent-cyan);
+}
+
+.flip-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  letter-spacing: -0.014em;
+  line-height: 1.2;
+  color: var(--text-primary);
+}
+
+.flip-text {
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+  margin-top: 0.3rem;
+}
+
+/* --- schematic parts ------------------------------------------------------ */
+
+.fc-art .fc-line   { fill: none; stroke: rgba(150, 165, 185, 0.42); stroke-width: 1.6; stroke-linecap: round; }
+.fc-art .fc-joint  { fill: none; stroke: rgba(0, 240, 255, 0.6); stroke-width: 1.6; }
+.fc-art .fc-die    { fill: none; stroke: rgba(150, 165, 185, 0.3); stroke-width: 1; }
+.fc-art .fc-bead   { fill: none; stroke: rgba(150, 165, 185, 0.24); stroke-width: 1.2; }
+.fc-art .fc-det    { fill: none; stroke: rgba(0, 240, 255, 0.5); stroke-width: 1.4; }
+.fc-art .fc-det rect { stroke-dasharray: 5 4; stroke: rgba(0, 240, 255, 0.3); }
+
+.fc-art .fc-hot    { fill: var(--accent-copper); }
+.fc-art .fc-hot-r  { fill: var(--accent-copper); }
+.fc-art .fc-hot-f circle { fill: var(--accent-copper); opacity: 0.9; }
+.fc-art .fc-crack  { fill: none; stroke: var(--accent-copper); stroke-width: 2.2; stroke-linecap: round; }
+
+/* --- team ---------------------------------------------------------------- */
+
+.team-member { text-align: center; padding: var(--space-4); }
+
+.team-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  margin: 0 auto var(--space-3);
+  background: var(--bg-card-hover);
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  overflow: hidden;
+  position: relative;
+}
+
+.team-avatar img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-avatar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+/* The PI card runs wide and horizontal: a single centred card at track width
+   crams a long name and post-nominals into three wrapped lines. */
+.team-lead {
+  grid-column: span 2;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: left;
+}
+
+.team-lead .team-avatar {
+  width: 140px;
+  height: 140px;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.team-lead .team-name { font-size: 1.3rem; }
+
+@media (max-width: 560px) {
+  .team-lead {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+.team-name { font-size: 1.15rem; margin-bottom: 0.2rem; }
+
+/* Post-nominals sit between the name and the role: smaller and quieter than
+   both, so the name still leads and the credentials read as a footnote to it. */
+.team-quals {
+  font-family: var(--font-data);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+.team-role {
+  font-family: var(--font-data);
+  color: var(--accent-copper);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: var(--space-2);
+}
+
+/* Cards can carry more than one destination (institutional profile + LinkedIn),
+   so the links sit in their own row rather than stacking. */
+.team-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.4rem 1.1rem;
+  margin-top: var(--space-2);
+}
+
+.team-links .team-link { margin-top: 0; }
+
+.team-lead .team-links { justify-content: flex-start; }
+
+.team-link {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 240, 255, 0.35);
+  padding-bottom: 2px;
+  transition: border-color 0.2s var(--ease-out);
+}
+
+.team-link:hover { border-bottom-color: var(--accent-cyan); }
+
+/* ===========================================================================
+   Closing CTA
+   =========================================================================== */
+
+.cta-band {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(90% 130% at 50% 0%, rgba(0, 240, 255, 0.09) 0%, rgba(0, 240, 255, 0) 60%),
+    rgba(14, 16, 23, 0.55);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.cta-band h2 { margin-bottom: var(--space-2); }
+
+.cta-band p {
+  color: var(--text-secondary);
+  font-size: var(--fs-lede);
+  max-width: 52ch;
+  margin: 0 auto var(--space-4);
+}
+
+.cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  justify-content: center;
+}
+
+/* ===========================================================================
+   Footer
+   =========================================================================== */
+
+footer {
+  background: rgba(8, 9, 13, 0.92);
+  border-top: 1px solid var(--line);
+  padding: var(--space-6) 0 var(--space-4);
+  margin-top: var(--space-6);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: var(--space-5);
+  margin-bottom: var(--space-5);
+}
+
+.footer-col h4 {
+  color: var(--text-primary);
+  margin-bottom: var(--space-3);
+}
+
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 0.7rem; }
+
+.footer-links a {
+  color: var(--text-secondary);
+  font-size: 0.94rem;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover { color: var(--accent-cyan); }
+
+.footer-bottom {
+  border-top: 1px solid var(--line);
+  padding-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem var(--space-4);
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+/* ===========================================================================
+   Publications
+   A filterable, year-ordered list. The design DB flags "no publication
+   filtering" as the anti-pattern for research sites, and it's the right call:
+   the wider engineering output shouldn't dilute the vision work, but it
+   shouldn't be hidden either.
+   =========================================================================== */
+
+.pub-section { padding-top: var(--space-6); }
+
+.pub-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--space-3);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.9rem;
+  font-family: var(--font-data);
+  font-size: 0.74rem;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--line-strong);
+  border-radius: 100px;
+  transition: background 0.2s var(--ease-out), border-color 0.2s var(--ease-out),
+              color 0.2s var(--ease-out);
+}
+
+.chip span {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+
+.chip:hover { background: rgba(255, 255, 255, 0.07); }
+
+.chip.is-on {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: rgba(0, 240, 255, 0.5);
+  color: var(--accent-cyan);
+}
+
+.chip.is-on span { color: var(--accent-cyan); }
+
+.pub-count {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-bottom: var(--space-3);
+  min-height: 1.2em;
+}
+
+.pub-list {
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+.pub-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.pub-item[hidden] { display: none; }
+
+.pub-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: -0.012em;
+  margin-bottom: 0.35rem;
+}
+
+.pub-authors {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.3rem;
+}
+
+/* The lab's own people are bolded in the author string, so a reader can find
+   the affiliation without parsing the whole list. */
+.pub-authors b {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.pub-meta {
+  font-family: var(--font-data);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+.pub-meta .dot { opacity: 0.4; margin: 0 0.15rem; }
+.pub-cites { color: var(--accent-cyan); }
+.pub-oa { color: var(--accent-copper); }
+
+.pub-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  text-align: right;
+}
+
+.pub-year {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.28);
+  font-variant-numeric: tabular-nums;
+}
+
+.pub-topic {
+  font-family: var(--font-data);
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pub-doi {
+  font-family: var(--font-data);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-cyan);
+  text-decoration: none;
+  border: 1px solid rgba(0, 240, 255, 0.32);
+  border-radius: var(--radius-sm);
+  padding: 0.2rem 0.55rem;
+  transition: background 0.2s var(--ease-out);
+}
+
+.pub-doi:hover { background: rgba(0, 240, 255, 0.12); }
+
+@media (max-width: 700px) {
+  .pub-item {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+  }
+
+  .pub-side {
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
+    gap: 0.75rem;
+  }
+
+  .pub-year { font-size: 1.1rem; }
+}
+
+/* ===========================================================================
+   Scroll reveal
+   Guarded behind .js so the page is fully readable without JavaScript.
+   =========================================================================== */
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+}
+
+.js .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s var(--ease-out), transform 0.5s var(--ease-out);
+  transition-delay: var(--d, 0ms);
+}
+
+/* ===========================================================================
+   Responsive
+   =========================================================================== */
+
+@media (max-width: 1040px) {
+  .hero {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-6);
+    min-height: 0;
+  }
+
+  .hero-content { max-width: none; }
+
+  .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bento .cap-lead { grid-column: span 2; grid-row: auto; min-height: 0; }
+
+  .proof-inner {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .proof-label {
+    grid-column: 1 / -1;
+    border-right: none;
+    padding-right: 0;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 768px) {
+  .section { padding: var(--space-6) 0; }
+
+  .nav-toggle { display: flex; }
+
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem var(--space-4) var(--space-3);
+    background: rgba(10, 11, 16, 0.97);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-bottom: 1px solid var(--line);
+  }
+
+  header.nav-open .nav-links { display: flex; }
+
+  .nav-links a:not(.btn) {
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-links a.btn {
+    margin-top: var(--space-2);
+    justify-content: center;
+  }
+
+  .metrics-row { gap: var(--space-3) var(--space-4); }
+
+  .scope { padding: var(--space-2); }
+
+  .scope-read { grid-template-columns: 1fr 1fr; }
+  .scope-tab { font-size: 0.6rem; letter-spacing: 0.06em; }
+
+  .proof-inner {
+    grid-template-columns: 1fr;
+    gap: var(--space-2);
+  }
+
+  .bento { grid-template-columns: 1fr; }
+  .bento .cap-lead { grid-column: auto; }
+
+  .footer-grid { grid-template-columns: 1fr; gap: var(--space-4); }
+}
+
+/* ===========================================================================
+   Reduced motion
+   Motion here is atmosphere, never information — all of it is safe to drop.
+   waves.js separately renders a single static frame.
+   =========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .logo-mark .pulse { display: none; }
+  .logo-mark .mark-h circle { opacity: 0.85; }
+
+  .logo-mark .mark-px,
+  .logo-mark .mark-net,
+  /* The scan sweep is pure atmosphere; the demos still switch on click. */
+  .scope-scan { display: none; }
+  .dm { transition: none; }
+
+  /* Cards still reveal their explanation — they just don't spin to do it. */
+  .flip-inner { transition: none; }
+  .flip-card:hover .flip-inner,
+  .flip-card:focus-visible .flip-inner,
+  .flip-card[aria-expanded="true"] .flip-inner { transform: none; }
+  .flip-back { transform: none; opacity: 0; backface-visibility: visible; }
+  .flip-card:hover .flip-back,
+  .flip-card:focus-within .flip-back,
+  .flip-card[aria-expanded="true"] .flip-back { opacity: 1; }
+
+  .js .reveal { opacity: 1; transform: none; }
+}
