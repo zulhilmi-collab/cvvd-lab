@@ -248,58 +248,6 @@ h4 {
 
 p { text-wrap: pretty; }
 
-/* The word coming apart into what it names. Anchored to the word's own box
-   rather than sitting in the inline flow — as a zero-width inline-block it got
-   carried to the next line on its own when the headline wrapped. Everything is
-   in em so it tracks the fluid heading size. */
-.px-word {
-  position: relative;
-  display: inline-block;
-}
-
-/* "els" drawn as blocks rather than glyphs, sampled at a resolution that
-   coarsens toward the end of the word. Height and the baseline nudge are in
-   em, so it tracks the fluid heading. The real letters are still in the DOM
-   for screen readers and for anyone copying the headline. */
-.px-tail {
-  /* Derived from the raster, not eyeballed: the source spans the full bbox of
-     "pixels" (ascender to descender) at a 360px font, so the box is 344/360em
-     tall and its baseline sits 79/360em above its own bottom edge. The
-     negative margin drops the box by exactly that, putting the drawn baseline
-     on the text baseline. */
-  height: 0.9556em;
-  width: auto;
-  fill: var(--signal);
-  vertical-align: baseline;
-  margin-bottom: -0.2194em;
-  margin-left: 0.012em;
-}
-
-.px-drift {
-  position: absolute;
-  left: 100%;
-  bottom: 0.16em;
-  width: 0;
-  height: 0;
-}
-
-.px-drift i {
-  position: absolute;
-  left: var(--x);
-  bottom: var(--y);
-  width: var(--s);
-  height: var(--s);
-  border-radius: 0.02em;
-  background: var(--signal);
-  opacity: var(--o);
-  animation: pxDrift 7s var(--d) ease-in-out infinite;
-}
-
-@keyframes pxDrift {
-  0%, 100% { transform: none; }
-  50%      { transform: translate(0.22em, -0.16em); opacity: calc(var(--o) * 0.3); }
-}
-
 .text-gradient-cyan {
   background: linear-gradient(96deg, #fff 18%, var(--signal) 96%);
   -webkit-background-clip: text;
@@ -1689,7 +1637,6 @@ footer {
     transition-duration: 0.001ms !important;
   }
 
-  .px-drift i { animation: none; }
   .logo-mark .pulse { display: none; }
   .logo-mark .mark-h circle { opacity: 0.85; }
 
