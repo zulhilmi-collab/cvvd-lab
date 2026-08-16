@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=32">
+    <link rel="stylesheet" href="styles.css?v=34">
     <!-- Set before first paint so reveal-on-scroll never flashes unstyled,
          and so the page stays fully readable with JavaScript off. -->
     <script>document.documentElement.classList.add('js');</script>
@@ -110,7 +110,7 @@
                         <span class="metric-label">Fewer training images</span>
                     </div>
                     <p class="metric-note">
-                        Few-shot deployment reaches a new line on 40&ndash;50 annotated
+                        Few-shot deployment reaches a new line on as few as 10 annotated
                         images, where a conventional pipeline needs thousands. Method and
                         evaluation in our <a href="publications.html">publications</a>.
                     </p>
@@ -443,8 +443,16 @@
                      that carries furthest: globally recognised, AI-specific, and it
                      maps onto exactly the work this lab does. -->
                 <div class="proof-item">
-                    <strong><a href="https://parexus.ai/" target="_blank" rel="noopener">Parexus AI</a> &middot; NVIDIA Inception</strong>
-                    <span>Industry collaboration</span>
+                    <strong class="proof-brand">
+                        <a href="https://parexus.ai/" target="_blank" rel="noopener">
+                            <picture>
+                                <source type="image/webp" srcset="parexus-320.webp">
+                                <img class="proof-logo" src="parexus-320.png" width="320" height="71" alt="Parexus">
+                            </picture>
+                        </a>
+                        <span>&middot; NVIDIA Inception</span>
+                    </strong>
+                    <span>Industry partner</span>
                 </div>
                 <div class="proof-item">
                     <strong>Validated on real assets</strong>
@@ -761,7 +769,7 @@
         </div>
     </footer>
 
-    <script src="waves.js?v=32"></script>
-    <script src="main.js?v=32"></script>
+    <script src="waves.js?v=34"></script>
+    <script src="main.js?v=34"></script>
 </body>
 </html>

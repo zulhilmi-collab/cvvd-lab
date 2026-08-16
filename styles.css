@@ -928,6 +928,24 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   gap: 0.15rem;
 }
 
+/* The partner mark sits inline with the credential text, sized to the cap
+   height beside it rather than to its own bounding box. */
+.proof-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.proof-logo {
+  display: block;
+  height: 17px;
+  width: auto;
+  opacity: 0.92;
+}
+
+.proof-brand a { display: block; line-height: 0; }
+
 .proof-item strong {
   font-size: 0.95rem;
   font-weight: 600;
