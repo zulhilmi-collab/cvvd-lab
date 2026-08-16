@@ -8,8 +8,10 @@
   /* Ground — graphite */
   --bg-dark: #0e1116;
   --bg-raise: #131820;
-  --bg-card: rgba(24, 29, 38, 0.62);
-  --bg-card-hover: rgba(33, 40, 51, 0.82);
+  /* Cards sit over the wave field, so they are deliberately thin. Much below
+     0.45 and muted labels stop clearing 4.5:1 over a bright crest. */
+  --bg-card: rgba(24, 29, 38, 0.52);
+  --bg-card-hover: rgba(33, 40, 51, 0.72);
 
   /* Two colours carry all the meaning: --signal is the system looking,
      --fault is the thing that is wrong. Safety orange is the hazard-marking
@@ -23,16 +25,19 @@
   --fault-deep: #c2560c;
   --on-fault: #1a0c02;
 
-  /* Text — muted holds 5.1:1 on the ground, so small labels still pass. */
+  /* Text. Cards are translucent, so the effective background under a label
+     varies with the wave crest behind it. Muted is set so it still clears
+     4.5:1 modelled against a card sitting over a bright crest, not just
+     against the flat ground. */
   --text-primary: #ffffff;
-  --text-secondary: #a8b0bd;
-  --text-muted: #7d8592;
+  --text-secondary: #b0b8c5;
+  --text-muted: #9ba3b1;
 
   /* Lines */
   --line: rgba(255, 255, 255, 0.07);
   --line-strong: rgba(255, 255, 255, 0.13);
   --glass-border: 1px solid var(--line);
-  --glass-blur: blur(14px);
+  --glass-blur: blur(10px);   /* less smear, so the field stays legible */
 
   /* Type */
   --font-body: 'Inter', system-ui, -apple-system, sans-serif;
@@ -894,7 +899,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
 .proof {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  background: rgba(14, 17, 22, 0.42);
+  background: rgba(14, 17, 22, 0.36);
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
 }
@@ -912,7 +917,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
   font-size: var(--fs-micro);
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--fault);
   padding-right: var(--space-4);
   border-right: 1px solid var(--line);
 }
@@ -1301,7 +1306,7 @@ header.nav-open .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) ro
    =========================================================================== */
 
 footer {
-  background: rgba(10, 12, 16, 0.92);
+  background: rgba(10, 12, 16, 0.84);
   border-top: 1px solid var(--line);
   padding: var(--space-6) 0 var(--space-4);
   margin-top: var(--space-6);
